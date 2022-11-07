@@ -1,4 +1,4 @@
-2D bin packing
+2D bin packing - https://observablehq.com/@mourner/simple-rectangle-packing
     Capacity
 
 Drag + Drop
@@ -9,3 +9,5 @@ Items
     rectangular (1x1, 2x1, 1x2, 2x3, etc)
     
 World-space canvas with movement/animation to fit UI into the view port.
+    needs to handle various resolutions?
+    VR
