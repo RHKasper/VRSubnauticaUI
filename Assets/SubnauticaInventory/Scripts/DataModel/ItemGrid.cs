@@ -4,25 +4,25 @@ using UnityEngine.Assertions;
 
 namespace SubnauticaInventory.Scripts.DataModel
 {
-	public class Inventory
+	public class ItemGrid
 	{
 		/// <summary>
 		/// Grid of items where (0,0) is the top left.
 		/// </summary>
-		public readonly ItemData[,] ItemGrid;
+		public readonly ItemData[,] Grid;
 		public readonly List<ItemData> Items;
 		
-		private int Width => ItemGrid.GetLength(0);
-		private int Height => ItemGrid.GetLength(1);
+		private int Width => Grid.GetLength(0);
+		private int Height => Grid.GetLength(1);
 
-		public Inventory(int width, int height)
+		public ItemGrid(int width, int height)
 		{
 			Items = new List<ItemData>();
-			ItemGrid = new ItemData[width, height];
+			Grid = new ItemData[width, height];
 			Clear();
 		}
 
-		public ItemData Get(int x, int y) => ItemGrid[x, y];
+		public ItemData Get(int x, int y) => Grid[x, y];
 
 		/// <summary>
 		/// Adds an item at a specific location (x,y)
@@ -44,7 +44,7 @@ namespace SubnauticaInventory.Scripts.DataModel
 			for (int i = topLeftX; i < topLeftX + itemData.Width; i++)
 			for (int j = topLeftY; j < topLeftY + itemData.Height; j++)
 			{
-				ItemGrid[i, j] = itemData;
+				Grid[i, j] = itemData;
 			}
 
 			Items.Add(itemData);
@@ -59,7 +59,7 @@ namespace SubnauticaInventory.Scripts.DataModel
 		{
 			for (int i = 0; i < Width; i++)
 			for (int j = 0; j < Height; j++)
-				ItemGrid[i, j] = default;
+				Grid[i, j] = default;
 			
 			Items.Clear();
 		}
@@ -75,8 +75,8 @@ namespace SubnauticaInventory.Scripts.DataModel
 
 		private void AssertIsEmpty(int x, int y)
 		{
-			if (ItemGrid[x, y] != default)
-				throw new Exception($"({x},{y}) already contains {ItemGrid[x, y]}");
+			if (Grid[x, y] != default)
+				throw new Exception($"({x},{y}) already contains {Grid[x, y]}");
 		}
 	}
 }

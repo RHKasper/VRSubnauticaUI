@@ -11,3 +11,15 @@ Items
 World-space canvas with movement/animation to fit UI into the view port.
     needs to handle various resolutions?
     VR
+    
+    
+Data Model
+    Item
+    Inventory
+        Request Add?
+            - repack
+        Remove
+            - repack
+        Repack
+    Equipment
+    
