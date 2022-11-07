@@ -1,0 +1,11 @@
+2D bin packing
+    Capacity
+
+Drag + Drop
+    drop-hover states (color, tweening)
+    placeholder in current location
+    
+Items
+    rectangular (1x1, 2x1, 1x2, 2x3, etc)
+    
+World-space canvas with movement/animation to fit UI into the view port.
