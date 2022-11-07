@@ -1,11 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace SubnauticaInventory.Scripts.DataModel
 {
 	public class Inventory
 	{
 		public List<ItemData> Items;
+		public Dictionary<ItemData, Vector2Int> CurrentPack;
+
+		private readonly int _width;
+		private readonly int _height;
+
+		public Inventory(int width, int height)
+		{
+			_width = width;
+			_height = height;
+			Items = new List<ItemData>();
+		}
 
 		/// <summary>
 		/// Adds an item, if possible.
@@ -24,22 +36,17 @@ namespace SubnauticaInventory.Scripts.DataModel
 
 		public void Remove(ItemData itemData)
 		{
-			throw new NotImplementedException();
+			Items.Remove(itemData);
+			Repack();
 		}
 
-		private void Repack()
-		{
-			throw new NotImplementedException();
-		}
-
-		private bool CanAdd(ItemData itemData)
-		{
-			throw new NotImplementedException();
-		}
+		private void Repack() => CurrentPack = BinPackingUtility.GenerateBinPack(Items, _width, _height);
+		private bool CanAdd(ItemData itemData) => BinPackingUtility.ItemsFitInBin(new List<ItemData>(Items) { itemData }, _width, _height);
 
 		private void Add(ItemData itemData)
 		{
-			throw new NotImplementedException();
+			Items.Add(itemData);
+			Repack();
 		}
 	}
 }
