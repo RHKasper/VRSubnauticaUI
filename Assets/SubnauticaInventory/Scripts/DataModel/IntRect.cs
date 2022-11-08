@@ -22,7 +22,7 @@
 			if (Width > itemData.Width)
 				right = new IntRect(X + itemData.Width, Y, Width - itemData.Width, itemData.Height);
 			if (Height > itemData.Height)
-				below = new IntRect(X, Y + itemData.Height, itemData.Width, Height - itemData.Height);
+				below = new IntRect(X, Y + itemData.Height, Width, Height - itemData.Height);
 		}
 	}
 }
