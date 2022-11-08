@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Editor
+namespace EditorTools
 {
 	public class UGuiTools : MonoBehaviour {
 		[MenuItem("uGUI/Anchors to Corners %[")]
