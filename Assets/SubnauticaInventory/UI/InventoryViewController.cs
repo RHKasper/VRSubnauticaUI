@@ -78,7 +78,7 @@ namespace SubnauticaInventory.UI
 		[ContextMenu("Test Inventory Load")]
 		private void TestInventoryLoad()
 		{
-			Inventory inventory = new Inventory(5, 8);
+			Inventory inventory = new Inventory(6, 8);
 			inventory.RequestAdd(new ItemData("TestItem", 1, 1));
 			inventory.RequestAdd(new ItemData("TestItem", 5, 2));
 			inventory.RequestAdd(new ItemData("TestItem", 1, 2));

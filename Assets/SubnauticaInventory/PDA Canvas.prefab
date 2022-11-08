@@ -173,7 +173,7 @@ MonoBehaviour:
   gridBackgroundController: {fileID: 4775891199451434092}
   itemViewPrefab: {fileID: 2520387702647007572, guid: ab3b487277dbb5244bd7f26d0cd70e5a,
     type: 3}
-  cellDimensions: {x: 60, y: 60}
+  cellDimensions: {x: 80, y: 80}
 --- !u!1 &2468893730016785272
 GameObject:
   m_ObjectHideFlags: 0
