@@ -22,5 +22,21 @@ namespace SubnauticaInventory.Scripts.DataModel.UnitTests
 			Assert.IsFalse(BinPackingUtility.ItemsFitInBin(items, 1,0));
 			Assert.IsFalse(BinPackingUtility.ItemsFitInBin(items, 0,0));
 		}
+		
+		[Test]
+		public static void ShapeMismatchTest()
+		{
+			List<ItemData> items = new()
+			{
+				new ItemData("wide", 2, 1),
+				new ItemData("tall", 1, 2)
+			};
+
+			Assert.IsTrue(BinPackingUtility.ItemsFitInBin(items, 20,2));
+			Assert.IsTrue(BinPackingUtility.ItemsFitInBin(items, 20,20));
+			
+			Assert.IsFalse(BinPackingUtility.ItemsFitInBin(items, 2,2));
+			Assert.IsFalse(BinPackingUtility.ItemsFitInBin(items, 1,20));
+		}
 	}
 }
