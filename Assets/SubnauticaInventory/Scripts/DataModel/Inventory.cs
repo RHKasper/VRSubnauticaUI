@@ -18,6 +18,8 @@ namespace SubnauticaInventory.Scripts.DataModel
 			Items = new List<ItemData>();
 		}
 
+		#region Public Methods
+
 		/// <summary>
 		/// Adds an item, if possible.
 		/// </summary>
@@ -39,6 +41,10 @@ namespace SubnauticaInventory.Scripts.DataModel
 			Repack();
 		}
 
+		#endregion
+
+		#region Private Methods
+
 		private void Repack() => CurrentPack = BinPackingUtility.GenerateBinPack(Items, _width, _height);
 		private bool CanAdd(ItemData itemData)
 		{
@@ -50,5 +56,7 @@ namespace SubnauticaInventory.Scripts.DataModel
 			Items.Add(itemData);
 			Repack();
 		}
+		
+		#endregion
 	}
 }
