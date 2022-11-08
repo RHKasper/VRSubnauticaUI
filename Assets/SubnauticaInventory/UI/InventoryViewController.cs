@@ -38,8 +38,10 @@ namespace SubnauticaInventory.UI
 		/// </summary>
 		private void Clear()
 		{
-			foreach (ItemViewController activeItemView in _activeItemViews) 
-				ReturnItemViewToPool(activeItemView);
+			while (_activeItemViews.Any())
+			{
+				ReturnItemViewToPool(_activeItemViews.Last.Value);
+			}
 		}
 
 		/// <summary>
@@ -51,7 +53,8 @@ namespace SubnauticaInventory.UI
 			
 			if (_itemViewPool.Any())
 			{
-				itemView = _itemViewPool.Last.Value;				
+				itemView = _itemViewPool.Last.Value;
+				itemView.gameObject.SetActive(true);
 				_itemViewPool.RemoveLast();
 			}
 			else
