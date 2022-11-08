@@ -41,7 +41,10 @@ namespace SubnauticaInventory.Scripts.DataModel
 		}
 
 		private void Repack() => CurrentPack = BinPackingUtility.GenerateBinPack(Items, _width, _height);
-		private bool CanAdd(ItemData itemData) => BinPackingUtility.ItemsFitInBin(new List<ItemData>(Items) { itemData }, _width, _height);
+		private bool CanAdd(ItemData itemData)
+		{
+			return !Items.Contains(itemData) && BinPackingUtility.ItemsFitInBin(new List<ItemData>(Items) { itemData }, _width, _height);
+		}
 
 		private void Add(ItemData itemData)
 		{
