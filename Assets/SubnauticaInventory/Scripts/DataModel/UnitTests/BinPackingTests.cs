@@ -38,5 +38,24 @@ namespace SubnauticaInventory.Scripts.DataModel.UnitTests
 			Assert.IsFalse(BinPackingUtility.ItemsFitInBin(items, 2,2));
 			Assert.IsFalse(BinPackingUtility.ItemsFitInBin(items, 1,20));
 		}
+		
+		[Test]
+		public static void ManyItemsTest()
+		{
+			List<ItemData> items = new()
+			{
+				new ItemData("wide", 2, 1),
+				new ItemData("tall", 1, 2),
+				new ItemData("very tall", 1, 3),
+				new ItemData("tall", 1, 2),
+				new ItemData("very tall", 1, 3),
+			};
+
+			Assert.IsTrue(BinPackingUtility.ItemsFitInBin(items, 2,6));
+			Assert.IsTrue(BinPackingUtility.ItemsFitInBin(items, 3,5));
+			
+			Assert.IsFalse(BinPackingUtility.ItemsFitInBin(items, 2,2));
+			Assert.IsFalse(BinPackingUtility.ItemsFitInBin(items, 1,20));
+		}
 	}
 }

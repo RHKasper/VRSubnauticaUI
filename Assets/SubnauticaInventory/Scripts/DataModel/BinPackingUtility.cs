@@ -9,33 +9,57 @@ namespace SubnauticaInventory.Scripts.DataModel
 	{
 		public static bool ItemsFitInBin(List<ItemData> items, int binWidth, int binHeight)
 		{
-			if (items.Count == 1)
-				return items[0].Width <= binWidth && items[0].Height <= binHeight;
-
-			throw new NotImplementedException();
+			return GenerateBinPack(items, binWidth, binHeight) != null;
 		}
 		
 		
 		/// <summary>
-		/// Returns a valid pack for the given <see cref="items"/> into a bin with a given <see cref="binWidth"/> and <see cref="binHeight"/>
+		/// Generates a valid bin pack for the given parameters, if there is one.
+		/// Source: https://codeincomplete.com/articles/bin-packing/
 		/// </summary>
-		/// <returns></returns>
-		/// <exception cref="NotImplementedException"></exception>
-		/// <exception cref="InvalidDataException"></exception>
+		/// <returns> null if there is no valid pack, otherwise returns a valid pack for the given <see cref="items"/>
+		/// into a bin with a given <see cref="binWidth"/> and <see cref="binHeight"/></returns>
 		public static Dictionary<ItemData, Vector2Int> GenerateBinPack(List<ItemData> items, int binWidth, int binHeight)
 		{
-			if (items.Count == 1)
-			{
-				if (items[0].Width <= binWidth && items[0].Height <= binHeight)
-					return new Dictionary<ItemData, Vector2Int>()
-					{
-						{ items[0], Vector2Int.zero }
-					};
-				
-				throw new InvalidDataException();
-			}
+			// Initialize Dictionary
+			Dictionary<ItemData, Vector2Int> binPack = new(); 
+
+			// Sort by height
+			items.Sort((a, b) => b.Height - a.Height);
 			
-			throw new NotImplementedException();
+			// Track open spaces as rects and start with the whole bin open
+			List<IntRect> openSpaces = new() { new IntRect(0, 0, binWidth, binHeight) };
+			
+			// Iterate through items and pack each in the first free space that can fit it
+			for (int i = 0; i < items.Count; i++)
+			{
+				var itemData = items[i];
+
+				foreach (IntRect openSpace in openSpaces)
+				{
+					if (openSpace.CanFitItem(itemData))
+					{
+						// Store position
+						binPack[itemData] = new Vector2Int(openSpace.X, openSpace.Y);
+						
+						// Remove this space and replace it with resulting spaces.
+						openSpace.SplitAroundItem(itemData, out IntRect? right, out IntRect? below);
+						openSpaces.Remove(openSpace);
+						if(right.HasValue)
+							openSpaces.Add(right.Value);
+						if (below.HasValue)
+							openSpaces.Add(below.Value);
+						
+						break;
+					}
+				}
+
+				// If no spot is found for an item, this is not a valid pack.
+				if (!binPack.ContainsKey(itemData))
+					return null;
+			}
+
+			return binPack;
 		}
 	}
 }
