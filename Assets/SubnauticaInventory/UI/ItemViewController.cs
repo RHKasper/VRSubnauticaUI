@@ -1,5 +1,4 @@
 ﻿using SubnauticaInventory.DataModel;
-using SubnauticaInventory.Scripts;
 using UnityEngine;
 using UnityEngine.UI;
 

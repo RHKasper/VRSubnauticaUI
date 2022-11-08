@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace SubnauticaInventory.Scripts
+namespace SubnauticaInventory
 {
 	public static class ExtensionMethods
 	{
