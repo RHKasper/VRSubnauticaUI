@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using SubnauticaInventory.DataModel;
 using UnityEngine;
 
 namespace SubnauticaInventory.Scripts.DataModel.UnitTests

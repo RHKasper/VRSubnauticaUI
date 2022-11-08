@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
+using SubnauticaInventory.DataModel;
 
 namespace SubnauticaInventory.Scripts.DataModel.UnitTests
 {

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace SubnauticaInventory.Scripts.UI
+namespace SubnauticaInventory.UI
 {
     /// <summary>
     /// Generates a tile grid for the inventory screen
@@ -9,13 +9,12 @@ namespace SubnauticaInventory.Scripts.UI
     [ExecuteAlways]
     public class GridBackgroundController : MonoBehaviour
     {
+        public Vector2 cellDimensions = new(60, 60);
+        public Vector2Int gridLayout = new(6, 8);
         [SerializeField] private RawImage gridImage;
-        [SerializeField] private Vector2 cellDimensions = new(60, 60);
-        [SerializeField] private Vector2Int gridLayout = new(6, 8);
 
         private Vector2 _lastSetCellDimensions;
         private Vector2Int _lastSetGridLayout;
-
 
         // Update is called once per frame
         void Update()

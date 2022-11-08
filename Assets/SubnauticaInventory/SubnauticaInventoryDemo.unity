@@ -535,11 +535,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PDA Canvas
       objectReference: {fileID: 0}
-    - target: {fileID: 3361763258122578922, guid: aec83ce5f4526964d8f34747faa77fcf,
-        type: 3}
-      propertyPath: m_PresetInfoIsWorld
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3361763258122578932, guid: aec83ce5f4526964d8f34747faa77fcf,
         type: 3}
       propertyPath: m_Pivot.x
@@ -670,5 +665,25 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 68258240}
+    - target: {fileID: 3361763258122578933, guid: aec83ce5f4526964d8f34747faa77fcf,
+        type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3699722440791278732, guid: aec83ce5f4526964d8f34747faa77fcf,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 7.5302124
+      objectReference: {fileID: 0}
+    - target: {fileID: 9127515429229458108, guid: aec83ce5f4526964d8f34747faa77fcf,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 480
+      objectReference: {fileID: 0}
+    - target: {fileID: 9127515429229458108, guid: aec83ce5f4526964d8f34747faa77fcf,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 640
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aec83ce5f4526964d8f34747faa77fcf, type: 3}

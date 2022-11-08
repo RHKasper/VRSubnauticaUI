@@ -1,4 +1,4 @@
-﻿namespace SubnauticaInventory.Scripts.DataModel
+﻿namespace SubnauticaInventory.DataModel
 {
 	public struct IntRect
 	{

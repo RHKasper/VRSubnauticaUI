@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace SubnauticaInventory.Scripts.DataModel
+namespace SubnauticaInventory.DataModel
 {
 	public class ItemData
 	{
@@ -17,5 +17,7 @@ namespace SubnauticaInventory.Scripts.DataModel
 			Width = width;
 			Height = height;
 		}
+
+		public Vector2Int GetDimensions() => new(Width, Height);
 	}
 }

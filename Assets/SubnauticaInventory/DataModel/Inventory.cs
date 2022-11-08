@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace SubnauticaInventory.Scripts.DataModel
+namespace SubnauticaInventory.DataModel
 {
 	public class Inventory
 	{
@@ -41,6 +41,8 @@ namespace SubnauticaInventory.Scripts.DataModel
 			Repack();
 		}
 
+		public Vector2Int GetDimensions() => new(_width, _height); 
+		
 		#endregion
 
 		#region Private Methods
