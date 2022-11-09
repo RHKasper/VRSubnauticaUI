@@ -80,13 +80,15 @@ namespace SubnauticaInventory.UI
 
 		#region Test Methods
 
+		public Sprite[] testSprites;
+		
 		[ContextMenu("Test Inventory Load 1")]
 		public void TestInventoryLoad1()
 		{
 			Inventory inventory = new Inventory(3, 5);
-			inventory.RequestAdd(new ItemData("TestItem", 1, 1));
-			inventory.RequestAdd(new ItemData("TestItem", 3, 2));
-			inventory.RequestAdd(new ItemData("TestItem", 2, 3));
+			inventory.RequestAdd(new ItemData("TestItem", 1, 1, testSprites.GetRandom()));
+			inventory.RequestAdd(new ItemData("TestItem", 3, 2, testSprites.GetRandom()));
+			inventory.RequestAdd(new ItemData("TestItem", 2, 3, testSprites.GetRandom()));
 			
 			LoadInventoryContents(inventory);
 		}
@@ -95,11 +97,11 @@ namespace SubnauticaInventory.UI
 		public void TestInventoryLoad2()
 		{
 			Inventory inventory = new Inventory(6, 8);
-			inventory.RequestAdd(new ItemData("TestItem", 1, 1));
-			inventory.RequestAdd(new ItemData("TestItem", 5, 2));
-			inventory.RequestAdd(new ItemData("TestItem", 1, 2));
-			inventory.RequestAdd(new ItemData("TestItem", 3, 2));
-			inventory.RequestAdd(new ItemData("TestItem", 2, 3));
+			inventory.RequestAdd(new ItemData("TestItem", 1, 1, testSprites.GetRandom()));
+			inventory.RequestAdd(new ItemData("TestItem", 5, 2, testSprites.GetRandom()));
+			inventory.RequestAdd(new ItemData("TestItem", 1, 2, testSprites.GetRandom()));
+			inventory.RequestAdd(new ItemData("TestItem", 3, 2, testSprites.GetRandom()));
+			inventory.RequestAdd(new ItemData("TestItem", 2, 3, testSprites.GetRandom()));
 			
 			LoadInventoryContents(inventory);
 		}
@@ -108,12 +110,12 @@ namespace SubnauticaInventory.UI
 		public void TestInventoryLoad3()
 		{
 			Inventory inventory = new Inventory(8, 8);
-			inventory.RequestAdd(new ItemData("TestItem", 1, 1));
-			inventory.RequestAdd(new ItemData("TestItem", 5, 2));
-			inventory.RequestAdd(new ItemData("TestItem", 5, 2));
-			inventory.RequestAdd(new ItemData("TestItem", 1, 2));
-			inventory.RequestAdd(new ItemData("TestItem", 3, 2));
-			inventory.RequestAdd(new ItemData("TestItem", 2, 3));
+			inventory.RequestAdd(new ItemData("TestItem", 1, 1, testSprites.GetRandom()));
+			inventory.RequestAdd(new ItemData("TestItem", 5, 2, testSprites.GetRandom()));
+			inventory.RequestAdd(new ItemData("TestItem", 5, 2, testSprites.GetRandom()));
+			inventory.RequestAdd(new ItemData("TestItem", 1, 2, testSprites.GetRandom()));
+			inventory.RequestAdd(new ItemData("TestItem", 3, 2, testSprites.GetRandom()));
+			inventory.RequestAdd(new ItemData("TestItem", 2, 3, testSprites.GetRandom()));
 			
 			LoadInventoryContents(inventory);
 		}
@@ -122,23 +124,23 @@ namespace SubnauticaInventory.UI
 		public void TestInventoryLoad4()
 		{
 			Inventory inventory = new Inventory(6, 8);
-			inventory.RequestAdd(new ItemData("TestItem", 3, 2));
-			inventory.RequestAdd(new ItemData("TestItem", 2, 2));
-			inventory.RequestAdd(new ItemData("TestItem", 1, 2));
-			inventory.RequestAdd(new ItemData("TestItem", 1, 1));
-			inventory.RequestAdd(new ItemData("TestItem", 1, 1));
-			inventory.RequestAdd(new ItemData("TestItem", 1, 1));
-			inventory.RequestAdd(new ItemData("TestItem", 1, 1));
-			inventory.RequestAdd(new ItemData("TestItem", 1, 1));
-			inventory.RequestAdd(new ItemData("TestItem", 1, 1));
-			inventory.RequestAdd(new ItemData("TestItem", 1, 1));
-			inventory.RequestAdd(new ItemData("TestItem", 1, 1));
-			inventory.RequestAdd(new ItemData("TestItem", 1, 1));
-			inventory.RequestAdd(new ItemData("TestItem", 1, 1));
-			inventory.RequestAdd(new ItemData("TestItem", 1, 1));
-			inventory.RequestAdd(new ItemData("TestItem", 1, 1));
-			inventory.RequestAdd(new ItemData("TestItem", 1, 1));
-			inventory.RequestAdd(new ItemData("TestItem", 1, 1));
+			inventory.RequestAdd(new ItemData("TestItem", 3, 2, testSprites.GetRandom()));
+			inventory.RequestAdd(new ItemData("TestItem", 2, 2, testSprites.GetRandom()));
+			inventory.RequestAdd(new ItemData("TestItem", 1, 2, testSprites.GetRandom()));
+			inventory.RequestAdd(new ItemData("TestItem", 1, 1, testSprites.GetRandom()));
+			inventory.RequestAdd(new ItemData("TestItem", 1, 1, testSprites.GetRandom()));
+			inventory.RequestAdd(new ItemData("TestItem", 1, 1, testSprites.GetRandom()));
+			inventory.RequestAdd(new ItemData("TestItem", 1, 1, testSprites.GetRandom()));
+			inventory.RequestAdd(new ItemData("TestItem", 1, 1, testSprites.GetRandom()));
+			inventory.RequestAdd(new ItemData("TestItem", 1, 1, testSprites.GetRandom()));
+			inventory.RequestAdd(new ItemData("TestItem", 1, 1, testSprites.GetRandom()));
+			inventory.RequestAdd(new ItemData("TestItem", 1, 1, testSprites.GetRandom()));
+			inventory.RequestAdd(new ItemData("TestItem", 1, 1, testSprites.GetRandom()));
+			inventory.RequestAdd(new ItemData("TestItem", 1, 1, testSprites.GetRandom()));
+			inventory.RequestAdd(new ItemData("TestItem", 1, 1, testSprites.GetRandom()));
+			inventory.RequestAdd(new ItemData("TestItem", 1, 1, testSprites.GetRandom()));
+			inventory.RequestAdd(new ItemData("TestItem", 1, 1, testSprites.GetRandom()));
+			inventory.RequestAdd(new ItemData("TestItem", 1, 1, testSprites.GetRandom()));
 			
 			LoadInventoryContents(inventory);
 		}

@@ -17,6 +17,14 @@ namespace SubnauticaInventory.DataModel
 			Width = width;
 			Height = height;
 		}
+		
+		public ItemData(string name, int width, int height, Sprite sprite)
+		{
+			Name = name;
+			Width = width;
+			Height = height;
+			Sprite = sprite;
+		}
 
 		public Vector2Int GetDimensions() => new(Width, Height);
 	}
