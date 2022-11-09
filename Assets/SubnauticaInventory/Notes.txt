@@ -37,8 +37,12 @@ UI
             Instantiates ItemViewController prefabs
             
         ItemViewController - could break this into smaller components (item sprite controller, state manager, drag and drop behavior)
-            - autosizes itself
-            - Controls interaction? (states + drag & drop)
-            - icon
+            autosizes itself
+            Controls interaction? (states + drag & drop)
+                Hover state
+                click state
+                drag state
+                drop-hover state
+                drop action
         
     
