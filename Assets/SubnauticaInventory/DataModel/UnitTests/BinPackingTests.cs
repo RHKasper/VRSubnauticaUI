@@ -58,5 +58,42 @@ namespace SubnauticaInventory.Scripts.DataModel.UnitTests
 			Assert.IsFalse(BinPackingUtility.ItemsFitInBin(items, 2,2));
 			Assert.IsFalse(BinPackingUtility.ItemsFitInBin(items, 1,20));
 		}
+
+		[Test]
+		public static void AddOpenSpaceTest()
+		{
+			LinkedList<IntRect> list = new LinkedList<IntRect>();
+			
+			BinPackingUtility.AddOpenSpace(new IntRect(0,0,1,1), list);
+			Assert.IsTrue(list.First.Value.Y == 0);
+			
+			BinPackingUtility.AddOpenSpace(new IntRect(0,2,1,1), list);
+			Assert.IsTrue(list.Last.Value.Y == 2);
+			
+			BinPackingUtility.AddOpenSpace(new IntRect(0,1,1,1), list);
+			Assert.IsTrue(list.First.Next.Value.Y == 1);
+			
+			BinPackingUtility.AddOpenSpace(new IntRect(0,1,1,1), list);
+			Assert.IsTrue(list.First.Next.Value.Y == 1);
+			Assert.IsTrue(list.First.Next.Next.Value.Y == 1);
+		}
+		
+		[Test]
+		public static void AddOpenSpaceTest2()
+		{
+			LinkedList<IntRect> list = new LinkedList<IntRect>();
+			
+			BinPackingUtility.AddOpenSpace(new IntRect(2,2,1,1), list);
+			Assert.IsTrue(list.First.Value.Y == 2);
+
+			BinPackingUtility.AddOpenSpace(new IntRect(5,0,1,1), list);
+			Assert.IsTrue(list.Last.Value.Y == 2);
+			Assert.IsTrue(list.First.Value.Y == 0);
+			
+			BinPackingUtility.AddOpenSpace(new IntRect(0,5,1,1), list);
+			Assert.IsTrue(list.Last.Value.Y == 5);
+			Assert.IsTrue(list.First.Value.Y == 0);
+			Assert.IsTrue(list.Last.Previous.Value.Y == 2);
+		}
 	}
 }
