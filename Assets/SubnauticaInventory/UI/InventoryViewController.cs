@@ -78,8 +78,21 @@ namespace SubnauticaInventory.UI
 			itemViewController.gameObject.SetActive(false);
 		}
 
-		[ContextMenu("Test Inventory Load")]
-		private void TestInventoryLoad()
+		#region Test Methods
+
+		[ContextMenu("Test Inventory Load 1")]
+		public void TestInventoryLoad1()
+		{
+			Inventory inventory = new Inventory(3, 5);
+			inventory.RequestAdd(new ItemData("TestItem", 1, 1));
+			inventory.RequestAdd(new ItemData("TestItem", 3, 2));
+			inventory.RequestAdd(new ItemData("TestItem", 2, 3));
+			
+			LoadInventoryContents(inventory);
+		}
+		
+		[ContextMenu("Test Inventory Load 2")]
+		public void TestInventoryLoad2()
 		{
 			Inventory inventory = new Inventory(6, 8);
 			inventory.RequestAdd(new ItemData("TestItem", 1, 1));
@@ -90,5 +103,46 @@ namespace SubnauticaInventory.UI
 			
 			LoadInventoryContents(inventory);
 		}
+		
+		[ContextMenu("Test Inventory Load 3")]
+		public void TestInventoryLoad3()
+		{
+			Inventory inventory = new Inventory(8, 8);
+			inventory.RequestAdd(new ItemData("TestItem", 1, 1));
+			inventory.RequestAdd(new ItemData("TestItem", 5, 2));
+			inventory.RequestAdd(new ItemData("TestItem", 5, 2));
+			inventory.RequestAdd(new ItemData("TestItem", 1, 2));
+			inventory.RequestAdd(new ItemData("TestItem", 3, 2));
+			inventory.RequestAdd(new ItemData("TestItem", 2, 3));
+			
+			LoadInventoryContents(inventory);
+		}
+		
+		[ContextMenu("Test Inventory Load 4")]
+		public void TestInventoryLoad4()
+		{
+			Inventory inventory = new Inventory(6, 8);
+			inventory.RequestAdd(new ItemData("TestItem", 3, 2));
+			inventory.RequestAdd(new ItemData("TestItem", 2, 2));
+			inventory.RequestAdd(new ItemData("TestItem", 1, 2));
+			inventory.RequestAdd(new ItemData("TestItem", 1, 1));
+			inventory.RequestAdd(new ItemData("TestItem", 1, 1));
+			inventory.RequestAdd(new ItemData("TestItem", 1, 1));
+			inventory.RequestAdd(new ItemData("TestItem", 1, 1));
+			inventory.RequestAdd(new ItemData("TestItem", 1, 1));
+			inventory.RequestAdd(new ItemData("TestItem", 1, 1));
+			inventory.RequestAdd(new ItemData("TestItem", 1, 1));
+			inventory.RequestAdd(new ItemData("TestItem", 1, 1));
+			inventory.RequestAdd(new ItemData("TestItem", 1, 1));
+			inventory.RequestAdd(new ItemData("TestItem", 1, 1));
+			inventory.RequestAdd(new ItemData("TestItem", 1, 1));
+			inventory.RequestAdd(new ItemData("TestItem", 1, 1));
+			inventory.RequestAdd(new ItemData("TestItem", 1, 1));
+			inventory.RequestAdd(new ItemData("TestItem", 1, 1));
+			
+			LoadInventoryContents(inventory);
+		}
+
+		#endregion
 	}
 }
