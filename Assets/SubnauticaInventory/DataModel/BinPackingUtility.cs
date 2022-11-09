@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace SubnauticaInventory.DataModel
@@ -23,32 +24,44 @@ namespace SubnauticaInventory.DataModel
 			Dictionary<ItemData, Vector2Int> binPack = new(); 
 
 			// Sort by height
-			items.Sort((a, b) => b.Height * b.Width - a.Height * a.Width);
+			items.Sort((a, b) => Mathf.CeilToInt(b.Height + b.Width/2f) - Mathf.CeilToInt(a.Height + a.Width/2f));
 			
 			// Track open spaces as rects and start with the whole bin open
-			List<IntRect> openSpaces = new() { new IntRect(0, 0, binWidth, binHeight) };
+			LinkedList<IntRect> openSpacesRight = new();
+			openSpacesRight.AddFirst(new IntRect(0, 0, binWidth, binHeight));
 			
-			// Iterate through items and pack each in the first free space that can fit it
+			LinkedList<IntRect> openSpacesBelow = new();
+
+			// Iterate through items and pack each in the first free space that can fit it, starting with top-most spaces.
 			for (int i = 0; i < items.Count; i++)
 			{
 				var itemData = items[i];
 
-				foreach (IntRect openSpace in openSpaces)
+				bool matchFound = false;
+				
+				// Check right spaces first so rows can be completed
+				foreach (IntRect openSpace in openSpacesRight)
 				{
 					if (openSpace.CanFitItem(itemData))
 					{
-						// Store position
 						binPack[itemData] = new Vector2Int(openSpace.X, openSpace.Y);
-						
-						// Remove this space and replace it with resulting spaces.
-						openSpace.SplitAroundItem(itemData, out IntRect? right, out IntRect? below);
-						openSpaces.Remove(openSpace);
-						if(right.HasValue)
-							openSpaces.Add(right.Value);
-						if (below.HasValue)
-							openSpaces.Add(below.Value);
-						
+						ConsumeSpace(itemData, openSpace, openSpacesRight, openSpacesRight, openSpacesBelow);
+						matchFound = true;
 						break;
+					}
+				}
+
+				// If no match in right spaces, check below spaces
+				if (!matchFound)
+				{
+					foreach (IntRect openSpace in openSpacesBelow)
+					{
+						if (openSpace.CanFitItem(itemData))
+						{
+							binPack[itemData] = new Vector2Int(openSpace.X, openSpace.Y);
+							ConsumeSpace(itemData, openSpace, openSpacesBelow, openSpacesRight, openSpacesBelow);
+							break;
+						}
 					}
 				}
 
@@ -58,6 +71,19 @@ namespace SubnauticaInventory.DataModel
 			}
 
 			return binPack;
+		}
+
+		private static void ConsumeSpace(ItemData itemData, IntRect openSpace, LinkedList<IntRect> sourceList, 
+			LinkedList<IntRect> openSpacesRight, LinkedList<IntRect> openSpacesBelow)
+		{
+			// Remove this space and replace it with resulting spaces.
+			openSpace.SplitAroundItem(itemData, out IntRect? right, out IntRect? below);
+			sourceList.Remove(openSpace);
+
+			if (right.HasValue)
+				openSpacesRight.AddLast(right.Value);
+			if (below.HasValue)
+				openSpacesBelow.AddLast(below.Value);
 		}
 	}
 }
