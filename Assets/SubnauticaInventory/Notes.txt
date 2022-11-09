@@ -34,15 +34,23 @@ UI
             
     Classes & Components
         InventoryViewController
-            Instantiates ItemViewController prefabs
+            Pools, instantiates, and places ItemViewController prefabs
             
         ItemViewController - could break this into smaller components (item sprite controller, state manager, drag and drop behavior)
-            autosizes itself
+            Initialization:
+                resizes itself
+                sets sprite
             Controls interaction? (states + drag & drop)
                 Hover state
                 click state
                 drag state
                 drop-hover state
                 drop action
+                
+
+    Item View Controller Interaction Logic:
+        Implements IPointerEnterHandler
+        Implements IPointerExitHandler
+        Implements IPointerDownHandler
         
     

@@ -1,23 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using SubnauticaInventory.DataModel;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace SubnauticaInventory.UI
 {
 	public class InventoryViewController : MonoBehaviour
 	{
-		[SerializeField] private Transform itemsParent;
-		[SerializeField] private GridBackgroundController gridBackgroundController;
-		[SerializeField] private ItemViewController itemViewPrefab;
+		[Header("Settings")] 
+		[SerializeField] private InventoryViewController transferTarget;
 		[SerializeField] private float cellSize = 80;
 		[SerializeField] private float spacing = 8;
 
+		[Header("Internal References")]
+		[SerializeField] private Transform itemsParent;
+		[SerializeField] private GridBackgroundController gridBackgroundController;
+		[SerializeField] private ItemViewController itemViewPrefab;
+		
 		private readonly LinkedList<ItemViewController> _itemViewPool = new();
 		private readonly LinkedList<ItemViewController> _activeItemViews = new();
+		
+		public Inventory InventoryData { get; private set; }
 
+		public InventoryViewController GetTransferTarget() => transferTarget;
 		public float GetCellSize() => cellSize;
 		public float GetSpacing() => spacing;
 		
@@ -33,7 +38,14 @@ namespace SubnauticaInventory.UI
 			
 			foreach (ItemData itemData in inventory.Items)
 				InstantiateItemView(itemData, inventory.CurrentPack[itemData]);
+			
+			InventoryData = inventory;
 		}
+
+		/// <summary>
+		/// Refreshes UI elements. This should be called when the <see cref="InventoryData"/> object is modified.
+		/// </summary>
+		public void Refresh() => LoadInventoryContents(InventoryData);
 
 		/// <summary>
 		/// Returns all active <see cref="ItemViewController"/> objects from this <see cref="InventoryViewController"/>
