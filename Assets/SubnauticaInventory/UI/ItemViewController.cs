@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace SubnauticaInventory.UI
 {
-	public class ItemViewController : SimpleUiBehavior, IPointerDownHandler
+	public partial class ItemViewController : SimpleUiBehavior, IPointerDownHandler
 	{
 		[SerializeField] private FreeModifier[] freeModifiers;
 		[SerializeField] private Image itemImage;
