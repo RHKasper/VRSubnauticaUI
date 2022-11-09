@@ -1328,7 +1328,8 @@ MonoBehaviour:
   gridBackgroundController: {fileID: 3535612565663577859}
   itemViewPrefab: {fileID: 2520387702647007572, guid: ab3b487277dbb5244bd7f26d0cd70e5a,
     type: 3}
-  cellDimensions: {x: 80, y: 80}
+  cellSize: 80
+  spacing: 4
   testSprites:
   - {fileID: 21300000, guid: 0ccc508108fa6ed4fa11b4a467d7f609, type: 3}
   - {fileID: 21300000, guid: 56dd07e3c0d6e47448dad60d6e746f64, type: 3}
