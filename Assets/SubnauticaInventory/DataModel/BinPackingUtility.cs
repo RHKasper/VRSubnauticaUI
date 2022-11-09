@@ -61,24 +61,23 @@ namespace SubnauticaInventory.DataModel
 
 		/// <summary>
 		/// Adds an open space such that <see cref="openSpaces"/> remains sorted from least to greatest Y position
+		/// todo: make this work when we add an item with smaller y than any current element.
 		/// </summary>
 		public static void AddOpenSpace(IntRect spaceToAdd, LinkedList<IntRect> openSpaces)
 		{
-			if (openSpaces.Count == 0)
+			if (openSpaces.Count == 0 || openSpaces.Last.Value.Y <= spaceToAdd.Y)
+				openSpaces.AddLast(spaceToAdd);
+			else if (openSpaces.First.Value.Y >= spaceToAdd.Y)
 				openSpaces.AddFirst(spaceToAdd);
 			else
 			{
-				LinkedListNode<IntRect> targetLocationPrecursor = openSpaces.First;
+				LinkedListNode<IntRect> target = openSpaces.Last;
 
-				while (spaceToAdd.Y <= targetLocationPrecursor.Value.Y)
-				{
-					if(targetLocationPrecursor.Next == null)
-						break;
-					
-					targetLocationPrecursor = targetLocationPrecursor.Next;
-				}
+				// check the previous one to see if it's less than space to add
+				while (target.Previous!.Value.Y >= spaceToAdd.Y)
+					target = target.Previous;
 
-				openSpaces.AddAfter(targetLocationPrecursor, spaceToAdd);
+				openSpaces.AddBefore(target, spaceToAdd);
 			}
 		}
 	}
