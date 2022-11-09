@@ -6,6 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
-  m_configObjects: {}
+    path: Assets/SubnauticaInventory/SubnauticaInventoryDemo.unity
+    guid: 83db43f452837f741b5373385941fd91
+  m_configObjects:
+    com.unity.xr.openxr.settings4: {fileID: 11400000, guid: 72004b9579a2cb549b239075090ad4ba,
+      type: 2}
