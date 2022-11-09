@@ -26,8 +26,8 @@ namespace SubnauticaInventory.UI
 		/// </summary>
 		private void SetSize(InventoryViewController inventoryViewController)
 		{
-			float cellSize = inventoryViewController.GetCellSize();
-			float spacing = inventoryViewController.GetSpacing();
+			float cellSize = inventoryViewController.CellSize;
+			float spacing = inventoryViewController.Spacing;
 			float borderRadius = (cellSize - spacing) / 2;
 			
 			Vector2 viewSize = cellSize * (Vector2)_itemData.GetDimensions();
@@ -42,7 +42,7 @@ namespace SubnauticaInventory.UI
 		// todo: implement drag and drop
 		public void OnPointerDown(PointerEventData eventData)
 		{
-			InventoryViewController target = _owner.GetTransferTarget();
+			InventoryViewController target = _owner.TransferTarget;
 
 			if (target.InventoryData.RequestAdd(_itemData))
 			{

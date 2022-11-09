@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using SubnauticaInventory.DataModel;
 using UnityEngine;
@@ -21,10 +22,9 @@ namespace SubnauticaInventory.UI
 		private readonly LinkedList<ItemViewController> _activeItemViews = new();
 		
 		public Inventory InventoryData { get; private set; }
-
-		public InventoryViewController GetTransferTarget() => transferTarget;
-		public float GetCellSize() => cellSize;
-		public float GetSpacing() => spacing;
+		public InventoryViewController TransferTarget => transferTarget;
+		public float CellSize => cellSize;
+		public float Spacing => spacing;
 		
 		/// <summary>
 		/// Clears the current view and generates item views for the given inventory. 
@@ -46,6 +46,11 @@ namespace SubnauticaInventory.UI
 		/// Refreshes UI elements. This should be called when the <see cref="InventoryData"/> object is modified.
 		/// </summary>
 		public void Refresh() => LoadInventoryContents(InventoryData);
+
+		/// <summary>
+		/// Initialize with an empty inventory
+		/// </summary>
+		private void Awake() => LoadInventoryContents(new Inventory(6,8));
 
 		/// <summary>
 		/// Returns all active <see cref="ItemViewController"/> objects from this <see cref="InventoryViewController"/>
