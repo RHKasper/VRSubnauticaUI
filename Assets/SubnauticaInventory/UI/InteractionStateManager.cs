@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 namespace SubnauticaInventory.UI
 {
@@ -17,7 +16,7 @@ namespace SubnauticaInventory.UI
 		public TextMeshProUGUI debugText;
 		
 		[Tooltip("Called whenever state change occurs. The first parameter is previous state, the second is new state")]
-		public Action<InteractionState, InteractionState> OnInteractionStateChanged;
+		public UnityEvent<InteractionState, InteractionState> OnInteractionStateChanged;
 
 		private HashSet<int> _pointersOver = new();
 		private int _pointerDownId = -1;
@@ -27,17 +26,16 @@ namespace SubnauticaInventory.UI
 
 		private bool _isDirty;
 		private InteractionState _lastInteractionState;
+		private List<RaycastResult> _tempRaycastList = new(6);
 
 		public void OnPointerEnter(PointerEventData eventData)
 		{
-			Debug.Log($"Pointer Enter: {eventData.pointerId}");
 			_pointersOver.Add(eventData.pointerId);
 			_isDirty = true;
 		}
 
 		public void OnPointerExit(PointerEventData eventData)
 		{
-			Debug.Log($"Pointer Exit: {eventData.pointerId}");
 			_pointersOver.Remove(eventData.pointerId);
 			_isDirty = true;
 		}
@@ -46,7 +44,6 @@ namespace SubnauticaInventory.UI
 		{
 			if (_pointerDownId == -1)
 			{
-				Debug.Log($"Pointer Down: {eventData.pointerId}");
 				_pointerDownId = eventData.pointerId;
 				_dragOrigin = eventData.position;
 				_isDirty = true;
@@ -57,7 +54,6 @@ namespace SubnauticaInventory.UI
 		{
 			if (eventData.pointerId == _pointerDownId)
 			{
-				Debug.Log($"Pointer Up: {eventData.pointerId}");
 				_pointerDownId = -1;
 				_dragOrigin = default;
 				_isDragging = default;
@@ -74,7 +70,6 @@ namespace SubnauticaInventory.UI
 
 				if (dragOffset.sqrMagnitude >= dragThreshold * dragThreshold)
 				{
-					Debug.Log($"Dragging: {eventData.pointerId}");
 					_isDragging = true;
 					_currentDropTarget = CheckForDropTarget(eventData);
 					_isDirty = true;
@@ -93,8 +88,9 @@ namespace SubnauticaInventory.UI
 			string debug = "";
 			debug += $"Pointers Over: {string.Join(",", _pointersOver)}\n";
 			debug += $"Pointer Down Id: {_pointerDownId}\n";
-			debug += $"IsDragging: {_isDragging}";
-			debug += $"Last Interaction State: {_lastInteractionState}";
+			debug += $"IsDragging: {_isDragging}\n";
+			debug += $"Last Interaction State: {_lastInteractionState}\n";
+			debug += $"CurrentDropTarget: {(_currentDropTarget != null ? _currentDropTarget.Name : "-")}\n";
 			debugText.text = debug;
 
 			if (_isDirty)
@@ -103,8 +99,17 @@ namespace SubnauticaInventory.UI
 		
 		private IDropTarget CheckForDropTarget(PointerEventData dragEventData)
 		{
+			EventSystem.current.RaycastAll(dragEventData, _tempRaycastList);
+
+			for (var i = 0; i < _tempRaycastList.Count; i++)
+			{
+				RaycastResult result = _tempRaycastList[i];
+				IDropTarget dropTarget = result.gameObject.GetComponent<IDropTarget>();
+				if (dropTarget != null)
+					return dropTarget;
+			}
+
 			return null;
-			// raycast against UI
 		}
 
 		private void UpdateInteractionState()

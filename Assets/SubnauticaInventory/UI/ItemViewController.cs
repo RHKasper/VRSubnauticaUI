@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace SubnauticaInventory.UI
 {
-	public partial class ItemViewController : SimpleUiBehavior, IPointerDownHandler
+	public partial class ItemViewController : SimpleUiBehavior, IPointerDownHandler, IDropTarget
 	{
 		[SerializeField] private FreeModifier[] freeModifiers;
 		[SerializeField] private Image itemImage;
@@ -51,5 +51,7 @@ namespace SubnauticaInventory.UI
 				target.Refresh();
 			}
 		}
+		
+		public string Name => gameObject.name;
 	}
 }

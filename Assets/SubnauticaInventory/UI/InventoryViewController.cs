@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace SubnauticaInventory.UI
 {
-	public class InventoryViewController : MonoBehaviour
+	public class InventoryViewController : MonoBehaviour, IDropTarget
 	{
 		[Header("Settings")] 
 		[SerializeField] private InventoryViewController transferTarget;
@@ -166,5 +166,7 @@ namespace SubnauticaInventory.UI
 		}
 
 		#endregion
+
+		public string Name => gameObject.name;
 	}
 }

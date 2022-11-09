@@ -2,6 +2,6 @@
 {
 	public interface IDropTarget
 	{
-		
+		public string Name { get; }
 	}
 }
