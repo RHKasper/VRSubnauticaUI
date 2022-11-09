@@ -1,7 +1,9 @@
 {
     "name": "SubnauticaInventory",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+        "GUID:fc04cf3de8129844faed8e38560ab7f0"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

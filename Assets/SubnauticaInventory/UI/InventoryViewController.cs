@@ -12,11 +12,13 @@ namespace SubnauticaInventory.UI
 		[SerializeField] private GridBackgroundController gridBackgroundController;
 		[SerializeField] private ItemViewController itemViewPrefab;
 		[SerializeField] private Vector2 cellDimensions = new(60, 60);
+		[SerializeField] private Vector2 spacing = new(8,8);
 
 		private readonly LinkedList<ItemViewController> _itemViewPool = new();
 		private readonly LinkedList<ItemViewController> _activeItemViews = new();
 
 		public Vector2 GetCellDimensions() => cellDimensions;
+		public Vector2 GetSpacing() => spacing;
 		
 		/// <summary>
 		/// Clears the current view and generates item views for the given inventory. 
@@ -63,7 +65,7 @@ namespace SubnauticaInventory.UI
 			}
 
 			itemView.SetData(itemData, this);
-			itemView.RectTransform.anchoredPosition = coordinates.Multiply(cellDimensions).WithNegativeY();
+			itemView.RectTransform.anchoredPosition = (coordinates.Multiply(cellDimensions) + spacing/2).WithNegativeY();
 
 			_activeItemViews.AddLast(itemView);
 			return itemView;

@@ -641,6 +641,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3206186159290608020, guid: aec83ce5f4526964d8f34747faa77fcf,
+        type: 3}
+      propertyPath: spacing.x
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3206186159290608020, guid: aec83ce5f4526964d8f34747faa77fcf,
+        type: 3}
+      propertyPath: spacing.y
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 3361763258122578920, guid: aec83ce5f4526964d8f34747faa77fcf,
         type: 3}
       propertyPath: m_Name
@@ -785,6 +795,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AdditionalShaderChannelsFlag
       value: 31
+      objectReference: {fileID: 0}
+    - target: {fileID: 3539572063720672407, guid: aec83ce5f4526964d8f34747faa77fcf,
+        type: 3}
+      propertyPath: spacing.x
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3539572063720672407, guid: aec83ce5f4526964d8f34747faa77fcf,
+        type: 3}
+      propertyPath: spacing.y
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3699722440791278732, guid: aec83ce5f4526964d8f34747faa77fcf,
         type: 3}

@@ -1,11 +1,13 @@
 ﻿using SubnauticaInventory.DataModel;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UI.ProceduralImage;
 
 namespace SubnauticaInventory.UI
 {
 	public class ItemViewController : SimpleUiBehavior
 	{
+		[SerializeField] private FreeModifier borderModifier;
 		[SerializeField] private Image itemImage;
 		
 		private ItemData _itemData;
@@ -22,7 +24,11 @@ namespace SubnauticaInventory.UI
 		/// </summary>
 		private void SetSize(InventoryViewController inventoryViewController)
 		{
-			RectTransform.sizeDelta = inventoryViewController.GetCellDimensions().Multiply(_itemData.GetDimensions());
+			Vector2 viewSize = inventoryViewController.GetCellDimensions().Multiply(_itemData.GetDimensions());
+			Vector2 spacing = inventoryViewController.GetSpacing();
+			viewSize -= spacing;
+
+			RectTransform.sizeDelta = viewSize;
 		}
 	}
 }

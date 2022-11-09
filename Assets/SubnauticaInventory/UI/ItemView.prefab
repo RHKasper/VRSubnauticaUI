@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2964660722282954560}
   - component: {fileID: 7730843539029981181}
   m_Layer: 5
-  m_Name: Gradient Background (1)
+  m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -228,4 +228,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1b33f3ad1984632ae09011e3b9a561e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  borderModifier: {fileID: 7730843539029981181}
   itemImage: {fileID: 5868599577409614045}
