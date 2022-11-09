@@ -1,5 +1,4 @@
-2D bin packing - https://observablehq.com/@mourner/simple-rectangle-packing
-    Capacity
+2D bin packing
 
 Drag + Drop
     drop-hover states (color, tweening)
@@ -12,7 +11,6 @@ World-space canvas with movement/animation to fit UI into the view port.
     needs to handle various resolutions?
     VR
     
-    
 Data Model
     Item
     Inventory
@@ -22,4 +20,25 @@ Data Model
             - repack
         Repack
     Equipment
+    
+UI
+    Behaviors:
+        Loading
+            Generate visuals from a GridPack
+        Interaction
+            Hover state
+            click state
+            drag state
+            drop-hover state
+            drop action
+            
+    Classes & Components
+        InventoryViewController
+            Instantiates ItemViewController prefabs
+            
+        ItemViewController - could break this into smaller components (item sprite controller, state manager, drag and drop behavior)
+            - autosizes itself
+            - Controls interaction? (states + drag & drop)
+            - icon
+        
     
