@@ -1,10 +1,16 @@
 ﻿using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace SubnauticaInventory.UI
 {
 	public class ItemTooltipManager : SimpleUiBehavior
 	{
+		[Header("Settings")]
+		[SerializeField] private Vector2 offsetFromPointer = new(10,10);
+		
+		
+		[Header("Internal References")]
 		[SerializeField] private TextMeshProUGUI nameText;
 		[SerializeField] private TextMeshProUGUI descriptionText;
 
@@ -27,6 +33,12 @@ namespace SubnauticaInventory.UI
 				_instance.HideInternal(itemView);
 		}
 
+		public static void UpdatePosition(ItemViewController itemView, PointerEventData eventData)
+		{
+			if(itemView == _currentItemView)
+				_instance.UpdatePositionInternal(eventData);
+		}
+
 		private static void Initialize()
 		{
 			_instance = Instantiate(Resources.Load<ItemTooltipManager>(_pathFromResources));
@@ -43,13 +55,7 @@ namespace SubnauticaInventory.UI
 			descriptionText.text = itemView.ItemData.Description;
 			transform.SetParent(itemView.RectTransform.parent);
 			transform.localScale = Vector3.one;
-			
-			RectTransform.anchorMax = itemView.RectTransform.anchorMax;
-			RectTransform.anchorMin= itemView.RectTransform.anchorMin;
-			Vector2 itemViewSizeOffset = itemView.RectTransform.sizeDelta.Multiply(.5f, -1f);
-			Vector2 position = itemView.RectTransform.anchoredPosition + itemViewSizeOffset;
-			RectTransform.anchoredPosition = position;
-			
+
 			gameObject.SetActive(true);
 		}
 
@@ -61,6 +67,12 @@ namespace SubnauticaInventory.UI
 				transform.localScale = Vector3.one;
 				gameObject.SetActive(false);
 			}
+		}
+
+		private void UpdatePositionInternal(PointerEventData eventData)
+		{
+			var raycastHit = eventData.pointerCurrentRaycast;
+			RectTransform.anchoredPosition = offsetFromPointer + (Vector2) transform.parent.InverseTransformPoint(raycastHit.worldPosition);
 		}
 	}
 }

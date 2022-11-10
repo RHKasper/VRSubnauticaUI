@@ -45,7 +45,7 @@ namespace SubnauticaInventory.UI
 		public void OnPointerDown(PointerEventData eventData)
 		{
 			InventoryViewController target = _owner.TransferTarget;
-
+			
 			if (target.InventoryData.RequestAdd(ItemData))
 			{
 				_owner.InventoryData.Remove(ItemData);
@@ -63,9 +63,9 @@ namespace SubnauticaInventory.UI
 				ItemTooltipManager.Hide(this);
 		}
 
-		private void Update()
+		public void OnPointerMoved(PointerEventData eventData)
 		{
-			throw new NotImplementedException();
+			ItemTooltipManager.UpdatePosition(this, eventData);
 		}
 
 		public string Name => gameObject.name;

@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 
 namespace SubnauticaInventory.UI
 {
-	public class InteractionStateManager : SimpleUiBehavior, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler, IDragHandler
+	public class InteractionStateManager : SimpleUiBehavior, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler, IDragHandler, IPointerMoveHandler
 	{
 		[Tooltip("The distance in pixels required to begin a drag action")]
 		public float dragThreshold = 20;
@@ -16,6 +16,8 @@ namespace SubnauticaInventory.UI
 		
 		[Tooltip("Called whenever state change occurs. The first parameter is previous state, the second is new state")]
 		public UnityEvent<InteractionState, InteractionState> OnInteractionStateChanged;
+		
+		public UnityEvent<PointerEventData> OnPointerMoved;
 
 		private HashSet<int> _pointersOver = new();
 		private int _pointerDownId = -1;
@@ -85,6 +87,12 @@ namespace SubnauticaInventory.UI
 					_isDirty = true;
 				}
 			}
+		}
+
+		public void OnPointerMove(PointerEventData eventData)
+		{
+			if (_lastInteractionState == InteractionState.PointerOver && eventData.pointerId == _pointersOver.First())
+				OnPointerMoved?.Invoke(eventData);
 		}
 
 		private void Update()
