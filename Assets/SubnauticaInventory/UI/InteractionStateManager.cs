@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -25,6 +26,11 @@ namespace SubnauticaInventory.UI
 		private bool _isDirty;
 		private InteractionState _lastInteractionState;
 		private List<RaycastResult> _tempRaycastList = new(6);
+
+		public void OnDisable()
+		{
+			OnInteractionStateChanged?.Invoke(_lastInteractionState, InteractionState.Default);
+		}
 
 		public void OnPointerEnter(PointerEventData eventData)
 		{
