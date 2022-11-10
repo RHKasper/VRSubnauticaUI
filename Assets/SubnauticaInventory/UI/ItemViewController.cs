@@ -1,4 +1,5 @@
-﻿using SubnauticaInventory.DataModel;
+﻿using System;
+using SubnauticaInventory.DataModel;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -59,9 +60,14 @@ namespace SubnauticaInventory.UI
 				ItemTooltipManager.Show(this);
 			
 			if(oldState == InteractionState.PointerOver)
-				ItemTooltipManager.Hide();
+				ItemTooltipManager.Hide(this);
 		}
-		
+
+		private void Update()
+		{
+			throw new NotImplementedException();
+		}
+
 		public string Name => gameObject.name;
 	}
 }

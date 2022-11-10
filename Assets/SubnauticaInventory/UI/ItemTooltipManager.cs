@@ -1,9 +1,5 @@
-﻿using System;
-using SubnauticaInventory.DataModel;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
 
 namespace SubnauticaInventory.UI
 {
@@ -13,6 +9,7 @@ namespace SubnauticaInventory.UI
 		[SerializeField] private TextMeshProUGUI descriptionText;
 
 		private static ItemTooltipManager _instance;
+		private static ItemViewController _currentItemView;
 		private static string _pathFromResources = "ItemTooltip";
 
 		#region Static Implementation
@@ -24,10 +21,10 @@ namespace SubnauticaInventory.UI
 			_instance.ShowInternal(itemView);
 		}
 		
-		public static void Hide()
+		public static void Hide(ItemViewController itemView)
 		{
 			if(_instance)
-				_instance.HideInternal();
+				_instance.HideInternal(itemView);
 		}
 
 		private static void Initialize()
@@ -40,6 +37,8 @@ namespace SubnauticaInventory.UI
 		
 		private void ShowInternal(ItemViewController itemView)
 		{
+			_currentItemView = itemView;
+			
 			nameText.text = itemView.ItemData.Name;
 			descriptionText.text = itemView.ItemData.Description;
 			transform.SetParent(itemView.RectTransform.parent);
@@ -54,11 +53,14 @@ namespace SubnauticaInventory.UI
 			gameObject.SetActive(true);
 		}
 
-		private void HideInternal()
+		private void HideInternal(ItemViewController itemView)
 		{
-			transform.SetParent(null);
-			transform.localScale = Vector3.one;
-			gameObject.SetActive(false);
+			if (itemView == _currentItemView)
+			{
+				transform.SetParent(null);
+				transform.localScale = Vector3.one;
+				gameObject.SetActive(false);
+			}
 		}
 	}
 }
