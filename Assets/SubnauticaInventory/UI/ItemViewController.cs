@@ -10,12 +10,13 @@ namespace SubnauticaInventory.UI
 		[SerializeField] private FreeModifier[] freeModifiers;
 		[SerializeField] private Image itemImage;
 		
-		private ItemData _itemData;
 		private InventoryViewController _owner;
+		
+		public ItemData ItemData { get; private set; }
 		
 		public void SetData(ItemData itemData, InventoryViewController inventoryViewController)
 		{
-			_itemData = itemData;
+			ItemData = itemData;
 			_owner = inventoryViewController;
 			itemImage.sprite = itemData.Sprite;
 			SetSize(inventoryViewController);
@@ -30,7 +31,7 @@ namespace SubnauticaInventory.UI
 			float spacing = inventoryViewController.Spacing;
 			float borderRadius = (cellSize - spacing) / 2;
 			
-			Vector2 viewSize = cellSize * (Vector2)_itemData.GetDimensions();
+			Vector2 viewSize = cellSize * (Vector2)ItemData.GetDimensions();
 			viewSize -= spacing * Vector2.one;
 			
 			RectTransform.sizeDelta = viewSize;
@@ -44,12 +45,21 @@ namespace SubnauticaInventory.UI
 		{
 			InventoryViewController target = _owner.TransferTarget;
 
-			if (target.InventoryData.RequestAdd(_itemData))
+			if (target.InventoryData.RequestAdd(ItemData))
 			{
-				_owner.InventoryData.Remove(_itemData);
+				_owner.InventoryData.Remove(ItemData);
 				_owner.Refresh();
 				target.Refresh();
 			}
+		}
+
+		public void OnInteractionStateChanged(InteractionState oldState, InteractionState newState)
+		{
+			if(newState == InteractionState.PointerOver)
+				ItemTooltipManager.Show(this);
+			
+			if(oldState == InteractionState.PointerOver)
+				ItemTooltipManager.Hide();
 		}
 		
 		public string Name => gameObject.name;

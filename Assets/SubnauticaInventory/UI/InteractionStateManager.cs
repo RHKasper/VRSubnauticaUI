@@ -9,8 +9,6 @@ namespace SubnauticaInventory.UI
 {
 	public class InteractionStateManager : SimpleUiBehavior, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler, IDragHandler
 	{
-		public enum InteractionState { Default, PointerOver, PointerDown, DraggingNoTarget, DraggingWithTarget }
-
 		[Tooltip("The distance in pixels required to begin a drag action")]
 		public float dragThreshold = 20;
 		public TextMeshProUGUI debugText;
@@ -85,13 +83,16 @@ namespace SubnauticaInventory.UI
 
 		private void Update()
 		{
-			string debug = "";
-			debug += $"Pointers Over: {string.Join(",", _pointersOver)}\n";
-			debug += $"Pointer Down Id: {_pointerDownId}\n";
-			debug += $"IsDragging: {_isDragging}\n";
-			debug += $"Last Interaction State: {_lastInteractionState}\n";
-			debug += $"CurrentDropTarget: {(_currentDropTarget != null ? _currentDropTarget.Name : "-")}\n";
-			debugText.text = debug;
+			if (debugText)
+			{
+				string debug = "";
+				debug += $"Pointers Over: {string.Join(",", _pointersOver)}\n";
+				debug += $"Pointer Down Id: {_pointerDownId}\n";
+				debug += $"IsDragging: {_isDragging}\n";
+				debug += $"Last Interaction State: {_lastInteractionState}\n";
+				debug += $"CurrentDropTarget: {(_currentDropTarget != null ? _currentDropTarget.Name : "-")}\n";
+				debugText.text = debug;
+			}
 
 			if (_isDirty)
 				UpdateInteractionState();
@@ -127,8 +128,12 @@ namespace SubnauticaInventory.UI
 			else
 				newInteractionState = InteractionState.Default;
 
-			OnInteractionStateChanged?.Invoke(_lastInteractionState, newInteractionState);
-			_lastInteractionState = newInteractionState;
+			if (_lastInteractionState != newInteractionState)
+			{
+				OnInteractionStateChanged?.Invoke(_lastInteractionState, newInteractionState);
+				_lastInteractionState = newInteractionState;
+			}
 		}
 	}
+	public enum InteractionState { Default, PointerOver, PointerDown, DraggingNoTarget, DraggingWithTarget }
 }

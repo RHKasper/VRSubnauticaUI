@@ -52,5 +52,10 @@ UI
         Implements IPointerEnterHandler
         Implements IPointerExitHandler
         Implements IPointerDownHandler
-        
+    
+    Tooltip control:
+        - Show when pointer enters - store pointer id
+        - hide when pointer exits
+        - use IpointerMove Interface to update position if pointer ID matches
+        - if one pointer is using tooltip, the other can't hijack it
     
