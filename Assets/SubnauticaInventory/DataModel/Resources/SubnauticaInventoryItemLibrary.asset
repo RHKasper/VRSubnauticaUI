@@ -33,7 +33,7 @@ MonoBehaviour:
   - name: Hot Air Balloon
     description: Primitive air transportation device powered by fire.
     sprite: {fileID: 21300000, guid: cbac96b938cdd094bb207d300b199a4f, type: 3}
-    width: 2
+    width: 3
     height: 4
   - name: Pet Robot
     description: A small robot that follows you around and can carry items for you
