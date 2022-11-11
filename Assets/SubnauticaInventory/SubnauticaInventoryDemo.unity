@@ -2249,7 +2249,7 @@ PrefabInstance:
     - target: {fileID: 3361763258122578920, guid: aec83ce5f4526964d8f34747faa77fcf,
         type: 3}
       propertyPath: m_Name
-      value: PDA Canvas
+      value: PDA
       objectReference: {fileID: 0}
     - target: {fileID: 3361763258122578932, guid: aec83ce5f4526964d8f34747faa77fcf,
         type: 3}
