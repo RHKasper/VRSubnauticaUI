@@ -56,9 +56,8 @@ namespace SubnauticaInventory.UI
 			
 		}
 
-		public void OnPointerMoved(PointerEventData eventData)
+		public void OnHoverPositionChanged(PointerEventData eventData)
 		{
-			Debug.Log("PointerMoved");
 			ItemTooltipsStaticManager.UpdatePosition(this, eventData);
 		}
 
