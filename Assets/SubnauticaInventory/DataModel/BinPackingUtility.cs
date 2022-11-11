@@ -23,7 +23,7 @@ namespace SubnauticaInventory.DataModel
 			Dictionary<ItemData, Vector2Int> binPack = new(); 
 
 			// Sort by height, using width as a tiebreaker
-			items.Sort((a, b) => b.Height - a.Height == 0 ? b.Width - a.Width : b.Height - a.Height);
+			items.Sort((a, b) => b.height - a.height == 0 ? b.width - a.width : b.height - a.height);
 			
 			// Track open spaces as rects and start with the whole bin open
 			LinkedList<IntRect> openSpaces = new();

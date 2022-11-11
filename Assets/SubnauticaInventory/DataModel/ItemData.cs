@@ -1,31 +1,43 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace SubnauticaInventory.DataModel
 {
+	[Serializable]
 	public class ItemData
 	{
-		public string Name;
-		public string Description;
-		public Sprite Sprite;
-		public int Width;
-		public int Height;
-		//Type? resource, equipment, etc.
+		public string name;
+		public string description;
+		public Sprite sprite;
+		public int width;
+		public int height;
+		//Type? (resource, equipment, etc.)
 
 		public ItemData(string name, int width, int height)
 		{
-			Name = name;
-			Width = width;
-			Height = height;
+			this.name = name;
+			this.width = width;
+			this.height = height;
 		}
 		
 		public ItemData(string name, int width, int height, Sprite sprite)
 		{
-			Name = name;
-			Width = width;
-			Height = height;
-			Sprite = sprite;
+			this.name = name;
+			this.width = width;
+			this.height = height;
+			this.sprite = sprite;
 		}
 
-		public Vector2Int GetDimensions() => new(Width, Height);
+		public ItemData Clone()
+		{
+			return new ItemData(name, width, height)
+			{
+				description = description,
+				sprite = sprite
+			};
+		}
+
+		public Vector2Int GetDimensions() => new(width, height);
 	}
 }

@@ -15,8 +15,8 @@ namespace SubnauticaInventory.UI.Tooltips
 
 		public void ShowInternal(ItemViewController itemView)
 		{
-			nameText.text = itemView.ItemData.Name;
-			descriptionText.text = itemView.ItemData.Description;
+			nameText.text = itemView.ItemData.name;
+			descriptionText.text = itemView.ItemData.description;
 			
 			transform.SetParent(itemView.RectTransform.parent);
 			transform.localScale = Vector3.one;

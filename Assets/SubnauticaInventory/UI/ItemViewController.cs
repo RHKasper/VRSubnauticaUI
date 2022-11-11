@@ -21,7 +21,7 @@ namespace SubnauticaInventory.UI
 		{
 			ItemData = itemData;
 			_owner = inventoryViewController;
-			itemImage.sprite = itemData.Sprite;
+			itemImage.sprite = itemData.sprite;
 			SetSize(inventoryViewController);
 		}
 

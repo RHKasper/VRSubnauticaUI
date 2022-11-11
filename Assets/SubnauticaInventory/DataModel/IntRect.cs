@@ -12,17 +12,17 @@
 			Height = height;
 		}
 			
-		public bool CanFitItem(ItemData itemData) => Width >= itemData.Width && Height >= itemData.Height;
+		public bool CanFitItem(ItemData itemData) => Width >= itemData.width && Height >= itemData.height;
 
 		public void SplitAroundItem(ItemData itemData, out IntRect? right, out IntRect? below)
 		{
 			right = null;
 			below = null;
 			
-			if (Width > itemData.Width)
-				right = new IntRect(X + itemData.Width, Y, Width - itemData.Width, itemData.Height);
-			if (Height > itemData.Height)
-				below = new IntRect(X, Y + itemData.Height, Width, Height - itemData.Height);
+			if (Width > itemData.width)
+				right = new IntRect(X + itemData.width, Y, Width - itemData.width, itemData.height);
+			if (Height > itemData.height)
+				below = new IntRect(X, Y + itemData.height, Width, Height - itemData.height);
 		}
 	}
 }
