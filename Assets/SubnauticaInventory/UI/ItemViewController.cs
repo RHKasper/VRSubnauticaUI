@@ -7,6 +7,10 @@ using UnityEngine.UI;
 
 namespace SubnauticaInventory.UI
 {
+	/// <summary>
+	/// This class is responsible for controlling the visuals and behavior of Item Views. It relies heavily on the
+	/// <see cref="InteractionStateManager"/> on the same object.
+	/// </summary>
 	public partial class ItemViewController : SimpleUiBehavior, IDropTarget
 	{
 		[SerializeField] private Image raycastTarget;
@@ -14,8 +18,7 @@ namespace SubnauticaInventory.UI
 		[SerializeField] private Image itemImage;
 		
 		private InventoryViewController _owner;
-		private bool _isDragging;
-		
+
 		public ItemData ItemData { get; private set; }
 		
 		public void SetData(ItemData itemData, InventoryViewController inventoryViewController)
@@ -76,13 +79,11 @@ namespace SubnauticaInventory.UI
 		public void OnDragStart(PointerEventData eventData)
 		{
 			Debug.Log("on drag start");
-			_isDragging = true;
 		}
 		
 		public void OnDragEnd(PointerEventData eventData)
 		{
 			Debug.Log("on drag end");
-			_isDragging = false;
 			_owner.Refresh();
 		}
 

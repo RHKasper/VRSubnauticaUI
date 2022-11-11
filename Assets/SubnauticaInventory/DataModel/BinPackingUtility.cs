@@ -22,9 +22,19 @@ namespace SubnauticaInventory.DataModel
 			// Initialize Dictionary
 			Dictionary<ItemData, Vector2Int> binPack = new(); 
 
-			// Sort by height, using width as a tiebreaker
-			items.Sort((a, b) => b.height - a.height == 0 ? b.width - a.width : b.height - a.height);
-			
+			// Sort by height, using width as a tiebreaker, then sorting objects with the same shape/size alphabetically
+			items.Sort(delegate(ItemData a, ItemData b)
+			{
+				if (a.height == b.height)
+				{
+					if(a.width == b.width)
+						return String.Compare(a.name, b.name, StringComparison.Ordinal);
+					return b.width.CompareTo(a.width);
+				}
+					
+				return b.height.CompareTo(a.height);
+			});
+
 			// Track open spaces as rects and start with the whole bin open
 			LinkedList<IntRect> openSpaces = new();
 			openSpaces.AddFirst(new IntRect(0, 0, binWidth, binHeight));
@@ -32,6 +42,9 @@ namespace SubnauticaInventory.DataModel
 			// Iterate through items and pack each in the first free space that can fit it, starting with top-most spaces.
 			foreach (var itemData in items)
 			{
+				if(itemData.width > itemData.height)
+					Debug.LogError("Items with width greater than height are not supported.");
+				
 				// Check right spaces first so rows can be completed
 				foreach (IntRect openSpace in openSpaces)
 				{
