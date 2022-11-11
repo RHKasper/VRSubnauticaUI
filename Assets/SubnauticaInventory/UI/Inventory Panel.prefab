@@ -1091,7 +1091,7 @@ RectTransform:
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0, y: 1}
 --- !u!1 &8043375882047085237
 GameObject:
   m_ObjectHideFlags: 0
@@ -1324,12 +1324,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f85d508c9a0a4c83bc66d40fbe972775, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  transferTarget: {fileID: 0}
+  cellSize: 80
+  spacing: 4
   itemsParent: {fileID: 3557886738411701960}
   gridBackgroundController: {fileID: 3535612565663577859}
   itemViewPrefab: {fileID: 2520387702647007572, guid: ab3b487277dbb5244bd7f26d0cd70e5a,
     type: 3}
-  cellSize: 80
-  spacing: 4
   testSprites:
   - {fileID: 21300000, guid: 0ccc508108fa6ed4fa11b4a467d7f609, type: 3}
   - {fileID: 21300000, guid: 56dd07e3c0d6e47448dad60d6e746f64, type: 3}

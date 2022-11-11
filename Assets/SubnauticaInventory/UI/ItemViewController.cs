@@ -1,5 +1,6 @@
 ﻿using System;
 using SubnauticaInventory.DataModel;
+using SubnauticaInventory.UI.Tooltips;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -57,15 +58,15 @@ namespace SubnauticaInventory.UI
 		public void OnInteractionStateChanged(InteractionState oldState, InteractionState newState)
 		{
 			if(newState == InteractionState.PointerOver)
-				ItemTooltipManager.Show(this);
+				ItemTooltipsStaticManager.Show(this);
 			
 			if(oldState == InteractionState.PointerOver)
-				ItemTooltipManager.Hide(this);
+				ItemTooltipsStaticManager.Hide(this);
 		}
 
 		public void OnPointerMoved(PointerEventData eventData)
 		{
-			ItemTooltipManager.UpdatePosition(this, eventData);
+			ItemTooltipsStaticManager.UpdatePosition(this, eventData);
 		}
 
 		public string Name => gameObject.name;
