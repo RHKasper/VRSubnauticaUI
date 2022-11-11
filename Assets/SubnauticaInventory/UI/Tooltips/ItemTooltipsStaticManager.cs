@@ -12,6 +12,7 @@ namespace SubnauticaInventory.UI.Tooltips
 		private static string _pathFromResources = "ItemTooltip";
 		private static List<ItemTooltipController> _pool = new();
 		private static Dictionary<ItemViewController, ItemTooltipController> _activeTooltips = new();
+		private static Transform _poolParent;
 
 		public static void Show(ItemViewController itemView)
 		{
@@ -49,8 +50,7 @@ namespace SubnauticaInventory.UI.Tooltips
 			}
 			else
 			{
-				tooltip = Object.Instantiate(Resources.Load<ItemTooltipController>(_pathFromResources));
-				Object.DontDestroyOnLoad(tooltip);
+				tooltip = Object.Instantiate(Resources.Load<ItemTooltipController>(_pathFromResources), _poolParent);
 			}
 
 			return tooltip;
@@ -58,10 +58,15 @@ namespace SubnauticaInventory.UI.Tooltips
 
 		private static void ReturnToPool(ItemTooltipController tooltip)
 		{
-			tooltip.transform.SetParent(null);
+			if (!_poolParent)
+			{
+				_poolParent = new GameObject("Item Tooltip Pool").transform;
+				Object.DontDestroyOnLoad(_poolParent);
+			}
+			
+			tooltip.transform.SetParent(_poolParent);
 			tooltip.transform.localScale = Vector3.one;
 			tooltip.gameObject.SetActive(false);
-			Object.DontDestroyOnLoad(tooltip);
 			_pool.Add(tooltip);
 		}
 	}
