@@ -23,7 +23,6 @@ namespace SubnauticaInventory.UI
 		public Transform PdaOverlayCanvas => _pdaOverlayCanvas;
 		public ItemData ItemData { get; private set; }
 		
-
 		public void SetData(ItemData itemData, InventoryViewController inventoryViewController)
 		{
 			ItemData = itemData;
@@ -73,13 +72,7 @@ namespace SubnauticaInventory.UI
 		public void OnClick(PointerEventData eventData)
 		{
 			InventoryViewController target = _owner.TransferTarget;
-			
-			if (target.InventoryData.RequestAdd(ItemData))
-			{
-				_owner.InventoryData.Remove(ItemData);
-				_owner.Refresh();
-				target.Refresh();
-			}
+			TryMoveItemToAnotherInventory(target);
 		}
 
 		public void OnDragStart(PointerEventData eventData)
@@ -95,13 +88,39 @@ namespace SubnauticaInventory.UI
 			transform.SetParent(_owner.ItemViewsParent);
 			_owner.Refresh();
 			raycastTarget.raycastTarget = true;
-		}
 
+			EvaluateDragAndDrop(eventData);
+		}
+		
 		public void OnDragUpdate(PointerEventData eventData)
 		{
 			Debug.Log(eventData.pointerCurrentRaycast.gameObject.name);
 			Vector2 raycastLocalPos = _pdaOverlayCanvas.InverseTransformPoint(eventData.pointerCurrentRaycast.worldPosition);
 			RectTransform.anchoredPosition = raycastLocalPos + RectTransform.sizeDelta.Multiply(-.5f, .5f);
+		}
+
+		/// <summary>
+		/// This method is called when a drag ends to check if the pointer is over a valid <see cref="IDropTarget"/>
+		/// and executes the drop if there is one.
+		/// </summary>
+		private void EvaluateDragAndDrop(PointerEventData eventData)
+		{
+			IDropTarget target = eventData.pointerCurrentRaycast.gameObject.GetComponent<IDropTarget>();
+
+			if (target is InventoryViewController inventory && inventory != _owner)
+			{
+				TryMoveItemToAnotherInventory(inventory);
+			}
+		}
+		
+		private void TryMoveItemToAnotherInventory(InventoryViewController target)
+		{
+			if (target.InventoryData.RequestAdd(ItemData))
+			{
+				_owner.InventoryData.Remove(ItemData);
+				_owner.Refresh();
+				target.Refresh();
+			}
 		}
 
 		public string Name => gameObject.name;
