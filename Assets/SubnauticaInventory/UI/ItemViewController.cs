@@ -18,13 +18,16 @@ namespace SubnauticaInventory.UI
 		[SerializeField] private Image itemImage;
 		
 		private InventoryViewController _owner;
+		private Transform _pdaOverlayCanvas;
 
 		public ItemData ItemData { get; private set; }
 		
+
 		public void SetData(ItemData itemData, InventoryViewController inventoryViewController)
 		{
 			ItemData = itemData;
 			_owner = inventoryViewController;
+			_pdaOverlayCanvas = inventoryViewController.PdaOverlayCanvas.transform;
 			itemImage.sprite = itemData.sprite;
 			SetSize(inventoryViewController);
 		}
@@ -79,17 +82,19 @@ namespace SubnauticaInventory.UI
 		public void OnDragStart(PointerEventData eventData)
 		{
 			Debug.Log("on drag start");
+			transform.SetParent(_owner.PdaOverlayCanvas.transform);
 		}
 		
 		public void OnDragEnd(PointerEventData eventData)
 		{
 			Debug.Log("on drag end");
+			transform.SetParent(_owner.ItemViewsParent);
 			_owner.Refresh();
 		}
 
 		public void OnDragUpdate(PointerEventData eventData)
 		{
-			Vector2 raycastLocalPos = transform.parent.InverseTransformPoint(eventData.pointerCurrentRaycast.worldPosition);
+			Vector2 raycastLocalPos = _pdaOverlayCanvas.InverseTransformPoint(eventData.pointerCurrentRaycast.worldPosition);
 			RectTransform.anchoredPosition = raycastLocalPos + RectTransform.sizeDelta.Multiply(-.5f, .5f);
 		}
 

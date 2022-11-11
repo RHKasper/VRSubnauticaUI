@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using SubnauticaInventory.DataModel;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace SubnauticaInventory.UI
@@ -14,14 +15,20 @@ namespace SubnauticaInventory.UI
 		[SerializeField] private float cellSize = 80;
 		[SerializeField] private float spacing = 8;
 
+		[Header("External References")] 
+		[SerializeField] private PdaViewController pdaViewController;
+		
+		[FormerlySerializedAs("itemsParent")]
 		[Header("Internal References")]
-		[SerializeField] private Transform itemsParent;
+		[SerializeField] private Transform itemViewsParent;
 		[SerializeField] private GridBackgroundController gridBackgroundController;
 		[SerializeField] private ItemViewController itemViewPrefab;
 		
 		private readonly LinkedList<ItemViewController> _itemViewPool = new();
 		private readonly LinkedList<ItemViewController> _activeItemViews = new();
-		
+
+		public Transform ItemViewsParent => itemViewsParent;
+		public Canvas PdaOverlayCanvas => pdaViewController.OverlayCanvas;
 		public Inventory InventoryData { get; private set; }
 		public InventoryViewController TransferTarget => transferTarget;
 		public float CellSize => cellSize;
@@ -80,7 +87,7 @@ namespace SubnauticaInventory.UI
 			}
 			else
 			{
-				itemView = Instantiate(itemViewPrefab, itemsParent);
+				itemView = Instantiate(itemViewPrefab, itemViewsParent);
 			}
 
 			itemView.SetData(itemData, this);

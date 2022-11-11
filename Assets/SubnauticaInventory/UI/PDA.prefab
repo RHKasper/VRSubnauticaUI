@@ -451,6 +451,11 @@ PrefabInstance:
       propertyPath: transferTarget
       value: 
       objectReference: {fileID: 3539572063720672407}
+    - target: {fileID: 4776433892104665080, guid: c335a25d5e62afd47aa109392d604051,
+        type: 3}
+      propertyPath: pdaViewController
+      value: 
+      objectReference: {fileID: 589912949975135365}
     - target: {fileID: 8422110173378798008, guid: c335a25d5e62afd47aa109392d604051,
         type: 3}
       propertyPath: m_Name
@@ -598,6 +603,11 @@ PrefabInstance:
       propertyPath: transferTarget
       value: 
       objectReference: {fileID: 3206186159290608020}
+    - target: {fileID: 4776433892104665080, guid: c335a25d5e62afd47aa109392d604051,
+        type: 3}
+      propertyPath: pdaViewController
+      value: 
+      objectReference: {fileID: 589912949975135365}
     - target: {fileID: 8422110173378798008, guid: c335a25d5e62afd47aa109392d604051,
         type: 3}
       propertyPath: m_Name
