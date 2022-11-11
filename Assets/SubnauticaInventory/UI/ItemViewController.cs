@@ -14,6 +14,7 @@ namespace SubnauticaInventory.UI
 		[SerializeField] private Image itemImage;
 		
 		private InventoryViewController _owner;
+		private bool _isDragging;
 		
 		public ItemData ItemData { get; private set; }
 		
@@ -44,7 +45,23 @@ namespace SubnauticaInventory.UI
 			foreach (FreeModifier borderModifier in freeModifiers)
 				borderModifier.Radius = Vector4.one * borderRadius;
 		}
-		
+
+		public void OnInteractionStateChanged(InteractionState oldState, InteractionState newState)
+		{
+			if(newState == InteractionState.PointerOver)
+				ItemTooltipsStaticManager.Show(this);
+			
+			if (oldState == InteractionState.PointerOver)
+				ItemTooltipsStaticManager.Hide(this);
+			
+		}
+
+		public void OnPointerMoved(PointerEventData eventData)
+		{
+			Debug.Log("PointerMoved");
+			ItemTooltipsStaticManager.UpdatePosition(this, eventData);
+		}
+
 		public void OnClick(PointerEventData eventData)
 		{
 			InventoryViewController target = _owner.TransferTarget;
@@ -57,23 +74,23 @@ namespace SubnauticaInventory.UI
 			}
 		}
 
+		public void OnDragStart(PointerEventData eventData)
+		{
+			Debug.Log("on drag start");
+			_isDragging = true;
+		}
+		
 		public void OnDragEnd(PointerEventData eventData)
 		{
 			Debug.Log("on drag end");
+			_isDragging = false;
+			_owner.Refresh();
 		}
 
-		public void OnInteractionStateChanged(InteractionState oldState, InteractionState newState)
+		public void OnDragUpdate(PointerEventData eventData)
 		{
-			if(newState == InteractionState.PointerOver)
-				ItemTooltipsStaticManager.Show(this);
-			
-			if(oldState == InteractionState.PointerOver)
-				ItemTooltipsStaticManager.Hide(this);
-		}
-
-		public void OnPointerMoved(PointerEventData eventData)
-		{
-			ItemTooltipsStaticManager.UpdatePosition(this, eventData);
+			Vector2 raycastLocalPos = transform.parent.InverseTransformPoint(eventData.pointerCurrentRaycast.worldPosition);
+			RectTransform.anchoredPosition = raycastLocalPos + RectTransform.sizeDelta.Multiply(-.5f, .5f);
 		}
 
 		public string Name => gameObject.name;

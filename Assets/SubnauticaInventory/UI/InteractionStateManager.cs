@@ -14,7 +14,7 @@ namespace SubnauticaInventory.UI
 	/// This script is responsible for determining the current interaction state of Item Views.
 	/// It supports any number of pointers.
 	/// </summary>
-	public class InteractionStateManager : SimpleUiBehavior, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler, IPointerMoveHandler
+	public class InteractionStateManager : SimpleUiBehavior, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler, IPointerMoveHandler, IDragHandler
 	{
 		[Tooltip("The distance in pixels required to begin a drag action")]
 		public float dragThreshold = 20;
@@ -26,6 +26,8 @@ namespace SubnauticaInventory.UI
 		[FormerlySerializedAs("OnPointerMoved")] public UnityEvent<PointerEventData> OnHoverPositionChanged;
 		public UnityEvent<PointerEventData> OnClick;
 		public UnityEvent<PointerEventData> OnDragEnd;
+		public UnityEvent<PointerEventData> OnDragStart;
+		public UnityEvent<PointerEventData> OnDragUpdate;
 		
 		
 
@@ -90,24 +92,6 @@ namespace SubnauticaInventory.UI
 		{
 			if (_lastInteractionState == InteractionState.PointerOver && eventData.pointerId == _pointersOver.First())
 				OnHoverPositionChanged?.Invoke(eventData);
-			
-			if (eventData.pointerId == _pointerDownId)
-			{
-				Vector2 dragOffset = eventData.position - _dragOrigin;
-
-				if (_isDragging || dragOffset.sqrMagnitude >= dragThreshold * dragThreshold)
-				{
-					_isDragging = true;
-					_currentDropTarget = CheckForDropTarget(eventData);
-					_isDirty = true;
-				}
-				else
-				{
-					_isDragging = default;
-					_currentDropTarget = default;
-					_isDirty = true;
-				}
-			}
 		}
 
 		private void Update()
@@ -162,6 +146,33 @@ namespace SubnauticaInventory.UI
 				OnInteractionStateChanged?.Invoke(_lastInteractionState, newInteractionState);
 				_lastInteractionState = newInteractionState;
 			}
+		}
+
+		public void OnDrag(PointerEventData eventData)
+		{
+			if (eventData.pointerId == _pointerDownId)
+			{
+				Vector2 dragOffset = eventData.position - _dragOrigin;
+
+				if (_isDragging || dragOffset.sqrMagnitude >= dragThreshold * dragThreshold)
+				{
+					if (!_isDragging)
+						OnDragStart?.Invoke(eventData);
+
+					_isDragging = true;
+					_currentDropTarget = CheckForDropTarget(eventData);
+					_isDirty = true;
+				}
+				else
+				{
+					_isDragging = default;
+					_currentDropTarget = default;
+					_isDirty = true;
+				}
+			}
+			
+			if(_isDragging)
+				OnDragUpdate?.Invoke(eventData);
 		}
 	}
 	public enum InteractionState { Default, PointerOver, PointerDown, DraggingNoTarget, DraggingWithTarget }
