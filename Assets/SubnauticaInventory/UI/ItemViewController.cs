@@ -9,6 +9,7 @@ namespace SubnauticaInventory.UI
 {
 	public partial class ItemViewController : SimpleUiBehavior, IPointerDownHandler, IDropTarget
 	{
+		[SerializeField] private Image raycastTarget;
 		[SerializeField] private FreeModifier[] freeModifiers;
 		[SerializeField] private Image itemImage;
 		
@@ -37,6 +38,8 @@ namespace SubnauticaInventory.UI
 			viewSize -= spacing * Vector2.one;
 			
 			RectTransform.sizeDelta = viewSize;
+
+			raycastTarget.raycastPadding = -spacing / 2 * Vector4.one;
 
 			foreach (FreeModifier borderModifier in freeModifiers)
 				borderModifier.Radius = Vector4.one * borderRadius;
