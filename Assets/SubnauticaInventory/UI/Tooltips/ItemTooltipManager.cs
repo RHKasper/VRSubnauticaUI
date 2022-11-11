@@ -9,7 +9,6 @@ namespace SubnauticaInventory.UI
 		[Header("Settings")]
 		[SerializeField] private Vector2 offsetFromPointer = new(10,10);
 		
-		
 		[Header("Internal References")]
 		[SerializeField] private TextMeshProUGUI nameText;
 		[SerializeField] private TextMeshProUGUI descriptionText;
