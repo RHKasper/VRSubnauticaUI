@@ -13,12 +13,16 @@ namespace SubnauticaInventory.UI.Tooltips
 		[SerializeField] private TextMeshProUGUI nameText;
 		[SerializeField] private TextMeshProUGUI descriptionText;
 
+		private ItemViewController _itemView;
+
 		public void ShowInternal(ItemViewController itemView)
 		{
+			_itemView = itemView;
+			
 			nameText.text = itemView.ItemData.name;
 			descriptionText.text = itemView.ItemData.description;
 			
-			transform.SetParent(itemView.RectTransform.parent);
+			transform.SetParent(itemView.PdaOverlayCanvas);
 			transform.localScale = Vector3.one;
 
 			gameObject.SetActive(true);
@@ -27,7 +31,7 @@ namespace SubnauticaInventory.UI.Tooltips
 		public void UpdatePositionInternal(PointerEventData eventData)
 		{
 			var raycastHit = eventData.pointerCurrentRaycast;
-			RectTransform.anchoredPosition = offsetFromPointer + (Vector2) transform.parent.InverseTransformPoint(raycastHit.worldPosition);
+			RectTransform.anchoredPosition = offsetFromPointer + (Vector2) _itemView.PdaOverlayCanvas.InverseTransformPoint(raycastHit.worldPosition);
 		}
 	}
 }

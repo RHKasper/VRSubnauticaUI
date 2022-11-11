@@ -20,6 +20,7 @@ namespace SubnauticaInventory.UI
 		private InventoryViewController _owner;
 		private Transform _pdaOverlayCanvas;
 
+		public Transform PdaOverlayCanvas => _pdaOverlayCanvas;
 		public ItemData ItemData { get; private set; }
 		
 
