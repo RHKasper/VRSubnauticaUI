@@ -31,6 +31,8 @@ namespace SubnauticaInventory.UI
 			_pdaOverlayCanvas = inventoryViewController.PdaOverlayCanvas.transform;
 			itemImage.sprite = itemData.sprite;
 			SetSize(inventoryViewController);
+			
+			gameObject.name = $"ItemView - {itemData.name} ({itemData.width}x{itemData.height})";
 		}
 
 		/// <summary>
@@ -84,6 +86,7 @@ namespace SubnauticaInventory.UI
 		{
 			Debug.Log("on drag start");
 			transform.SetParent(_owner.PdaOverlayCanvas.transform);
+			raycastTarget.raycastTarget = false;
 		}
 		
 		public void OnDragEnd(PointerEventData eventData)
@@ -91,10 +94,12 @@ namespace SubnauticaInventory.UI
 			Debug.Log("on drag end");
 			transform.SetParent(_owner.ItemViewsParent);
 			_owner.Refresh();
+			raycastTarget.raycastTarget = true;
 		}
 
 		public void OnDragUpdate(PointerEventData eventData)
 		{
+			Debug.Log(eventData.pointerCurrentRaycast.gameObject.name);
 			Vector2 raycastLocalPos = _pdaOverlayCanvas.InverseTransformPoint(eventData.pointerCurrentRaycast.worldPosition);
 			RectTransform.anchoredPosition = raycastLocalPos + RectTransform.sizeDelta.Multiply(-.5f, .5f);
 		}
