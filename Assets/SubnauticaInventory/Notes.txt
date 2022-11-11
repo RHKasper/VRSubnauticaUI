@@ -59,3 +59,8 @@ UI
         - use IpointerMove Interface to update position if pointer ID matches
         - if one pointer is using tooltip, the other can't hijack it
     
+    
+11/11/2022
+    Drag Visuals: Move the original and make a ghosted copy at the start location
+        ItemViewGhostProvider
+        

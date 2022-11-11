@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace SubnauticaInventory.UI
 {
-	public partial class ItemViewController : SimpleUiBehavior, IPointerDownHandler, IDropTarget
+	public partial class ItemViewController : SimpleUiBehavior, IDropTarget
 	{
 		[SerializeField] private Image raycastTarget;
 		[SerializeField] private FreeModifier[] freeModifiers;
@@ -44,9 +44,8 @@ namespace SubnauticaInventory.UI
 			foreach (FreeModifier borderModifier in freeModifiers)
 				borderModifier.Radius = Vector4.one * borderRadius;
 		}
-
-		// todo: implement drag and drop
-		public void OnPointerDown(PointerEventData eventData)
+		
+		public void OnClick(PointerEventData eventData)
 		{
 			InventoryViewController target = _owner.TransferTarget;
 			
@@ -56,6 +55,11 @@ namespace SubnauticaInventory.UI
 				_owner.Refresh();
 				target.Refresh();
 			}
+		}
+
+		public void OnDragEnd(PointerEventData eventData)
+		{
+			Debug.Log("on drag end");
 		}
 
 		public void OnInteractionStateChanged(InteractionState oldState, InteractionState newState)

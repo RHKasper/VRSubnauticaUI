@@ -5,10 +5,16 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 
 namespace SubnauticaInventory.UI
 {
-	public class InteractionStateManager : SimpleUiBehavior, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler, IDragHandler, IPointerMoveHandler
+	
+	/// <summary>
+	/// This script is responsible for determining the current interaction state of Item Views.
+	/// It supports any number of pointers.
+	/// </summary>
+	public class InteractionStateManager : SimpleUiBehavior, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler, IPointerMoveHandler
 	{
 		[Tooltip("The distance in pixels required to begin a drag action")]
 		public float dragThreshold = 20;
@@ -17,7 +23,11 @@ namespace SubnauticaInventory.UI
 		[Tooltip("Called whenever state change occurs. The first parameter is previous state, the second is new state")]
 		public UnityEvent<InteractionState, InteractionState> OnInteractionStateChanged;
 		
-		public UnityEvent<PointerEventData> OnPointerMoved;
+		[FormerlySerializedAs("OnPointerMoved")] public UnityEvent<PointerEventData> OnHoverPositionChanged;
+		public UnityEvent<PointerEventData> OnClick;
+		public UnityEvent<PointerEventData> OnDragEnd;
+		
+		
 
 		private HashSet<int> _pointersOver = new();
 		private int _pointerDownId = -1;
@@ -60,21 +70,32 @@ namespace SubnauticaInventory.UI
 		{
 			if (eventData.pointerId == _pointerDownId)
 			{
+				bool tempIsDragging = _isDragging;
+				
 				_pointerDownId = -1;
 				_dragOrigin = default;
 				_isDragging = default;
 				_currentDropTarget = default;
 				_isDirty = true;
+				
+				if(tempIsDragging)
+					OnDragEnd?.Invoke(eventData);
+				else
+					OnClick?.Invoke(eventData);
 			}
 		}
+		
 
-		public void OnDrag(PointerEventData eventData)
+		public void OnPointerMove(PointerEventData eventData)
 		{
+			if (_lastInteractionState == InteractionState.PointerOver && eventData.pointerId == _pointersOver.First())
+				OnHoverPositionChanged?.Invoke(eventData);
+			
 			if (eventData.pointerId == _pointerDownId)
 			{
 				Vector2 dragOffset = eventData.position - _dragOrigin;
 
-				if (dragOffset.sqrMagnitude >= dragThreshold * dragThreshold)
+				if (_isDragging || dragOffset.sqrMagnitude >= dragThreshold * dragThreshold)
 				{
 					_isDragging = true;
 					_currentDropTarget = CheckForDropTarget(eventData);
@@ -87,12 +108,6 @@ namespace SubnauticaInventory.UI
 					_isDirty = true;
 				}
 			}
-		}
-
-		public void OnPointerMove(PointerEventData eventData)
-		{
-			if (_lastInteractionState == InteractionState.PointerOver && eventData.pointerId == _pointersOver.First())
-				OnPointerMoved?.Invoke(eventData);
 		}
 
 		private void Update()
