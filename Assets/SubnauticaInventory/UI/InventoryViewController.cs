@@ -29,6 +29,7 @@ namespace SubnauticaInventory.UI
 
 		public Transform ItemViewsParent => itemViewsParent;
 		public Canvas PdaOverlayCanvas => pdaViewController.OverlayCanvas;
+		public PdaViewController Pda => pdaViewController;
 		public Inventory InventoryData { get; private set; }
 		public InventoryViewController TransferTarget => transferTarget;
 		public float CellSize => cellSize;

@@ -57,16 +57,16 @@ namespace SubnauticaInventory.UI
 		public void OnInteractionStateChanged(InteractionState oldState, InteractionState newState)
 		{
 			if(newState == InteractionState.PointerOver)
-				ItemTooltipsStaticManager.Show(this);
+				_owner.Pda.ItemTooltipsProvider.Show(this);
 			
 			if (oldState == InteractionState.PointerOver)
-				ItemTooltipsStaticManager.Hide(this);
+				_owner.Pda.ItemTooltipsProvider.Hide(this);
 			
 		}
 
 		public void OnHoverPositionChanged(PointerEventData eventData)
 		{
-			ItemTooltipsStaticManager.UpdatePosition(this, eventData);
+			_owner.Pda.ItemTooltipsProvider.UpdatePosition(this, eventData);
 		}
 
 		public void OnClick(PointerEventData eventData)
