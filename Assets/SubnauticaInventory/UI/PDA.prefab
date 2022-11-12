@@ -155,6 +155,7 @@ MonoBehaviour:
   baseCanvas: {fileID: 3454823707839244507}
   overlayCanvas: {fileID: 620930848728187868}
   itemTooltipProvider: {fileID: 4568994706104210939}
+  swapTooltipProvider: {fileID: 1665620500464647239}
 --- !u!1 &6700706839119372366
 GameObject:
   m_ObjectHideFlags: 0

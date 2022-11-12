@@ -358,6 +358,7 @@ MonoBehaviour:
   - {fileID: 7798192904381300033}
   - {fileID: 7730843539029981181}
   itemImage: {fileID: 5868599577409614045}
+  interactionStateManager: {fileID: 8020093304943465463}
 --- !u!114 &8020093304943465463
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using SubnauticaInventory.DataModel;
 using SubnauticaInventory.UI.Tooltips;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace SubnauticaInventory.UI
@@ -16,6 +19,7 @@ namespace SubnauticaInventory.UI
 		[SerializeField] private Image raycastTarget;
 		[SerializeField] private FreeModifier[] freeModifiers;
 		[SerializeField] private Image itemImage;
+		[SerializeField] private InteractionStateManager interactionStateManager;
 		
 		private InventoryViewController _owner;
 		private Transform _pdaOverlayCanvas;
@@ -58,10 +62,9 @@ namespace SubnauticaInventory.UI
 		{
 			if(newState == InteractionState.PointerOver)
 				_owner.Pda.ItemTooltipProvider.Show(this);
-			
+
 			if (oldState == InteractionState.PointerOver)
 				_owner.Pda.ItemTooltipProvider.Hide(this);
-			
 		}
 
 		public void OnHoverPositionChanged(PointerEventData eventData)
@@ -85,6 +88,8 @@ namespace SubnauticaInventory.UI
 		public void OnDragEnd(PointerEventData eventData)
 		{
 			Debug.Log("on drag end");
+			
+			_owner.Pda.SwapTooltipProvider.Hide(this);
 			transform.SetParent(_owner.ItemViewsParent);
 			_owner.Refresh();
 			raycastTarget.raycastTarget = true;
@@ -97,6 +102,11 @@ namespace SubnauticaInventory.UI
 			Debug.Log(eventData.pointerCurrentRaycast.gameObject.name);
 			Vector2 raycastLocalPos = _pdaOverlayCanvas.InverseTransformPoint(eventData.pointerCurrentRaycast.worldPosition);
 			RectTransform.anchoredPosition = raycastLocalPos + RectTransform.sizeDelta.Multiply(-.5f, .5f);
+
+			if (interactionStateManager.CurrentDropTarget is ItemViewController swapTarget && CanSwapWith(swapTarget))
+				_owner.Pda.SwapTooltipProvider.Show(this);
+			else
+				_owner.Pda.SwapTooltipProvider.Hide(this);
 		}
 
 		/// <summary>
@@ -121,6 +131,27 @@ namespace SubnauticaInventory.UI
 				_owner.Refresh();
 				target.Refresh();
 			}
+		}
+
+		
+		/// <summary>
+		/// Evaluates whether swapping with a given <see cref="ItemViewController"/> would be valid.
+		/// </summary>
+		/// <returns>true if <see cref="swapTarget"/> belongs to a different inventory, and its <see cref="ItemData"/> would fit in
+		/// <see cref="_owner"/>'s if this object's <see cref="ItemData"/> wasn't in it</returns>
+		private bool CanSwapWith(ItemViewController swapTarget)
+		{
+			if(swapTarget._owner.InventoryData == _owner.InventoryData)
+				return false;
+
+			List<ItemData> theseItems = _owner.InventoryData.Items.Where(i => i!= ItemData).ToList();
+			theseItems.Add(swapTarget.ItemData);
+			
+			List<ItemData> thoseItems = swapTarget._owner.InventoryData.Items.Where(i => i!= swapTarget.ItemData).ToList();
+			thoseItems.Add(ItemData);
+
+			return BinPackingUtility.ItemsFitInBin(theseItems, _owner.InventoryData) &&
+			       BinPackingUtility.ItemsFitInBin(thoseItems, swapTarget._owner.InventoryData);
 		}
 
 		public string Name => gameObject.name;

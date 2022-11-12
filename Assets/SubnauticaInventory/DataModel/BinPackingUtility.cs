@@ -11,6 +11,11 @@ namespace SubnauticaInventory.DataModel
 			return GenerateBinPack(items, binWidth, binHeight) != null;
 		}
 		
+		public static bool ItemsFitInBin(List<ItemData> items, Inventory inventory)
+		{
+			return ItemsFitInBin(items, inventory.Width, inventory.Height);
+		}
+		
 		/// <summary>
 		/// Generates a valid bin pack for the given parameters, if there is one.
 		/// Source: https://codeincomplete.com/articles/bin-packing/
@@ -93,5 +98,7 @@ namespace SubnauticaInventory.DataModel
 				openSpaces.AddBefore(target, spaceToAdd);
 			}
 		}
+
+		
 	}
 }

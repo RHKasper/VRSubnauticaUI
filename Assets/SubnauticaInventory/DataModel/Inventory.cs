@@ -8,13 +8,13 @@ namespace SubnauticaInventory.DataModel
 		public List<ItemData> Items;
 		public Dictionary<ItemData, Vector2Int> CurrentPack;
 
-		private readonly int _width;
-		private readonly int _height;
+		public readonly int Width;
+		public readonly int Height;
 
 		public Inventory(int width, int height)
 		{
-			_width = width;
-			_height = height;
+			Width = width;
+			Height = height;
 			Items = new List<ItemData>();
 		}
 
@@ -41,16 +41,16 @@ namespace SubnauticaInventory.DataModel
 			Repack();
 		}
 
-		public Vector2Int GetDimensions() => new(_width, _height); 
+		public Vector2Int GetDimensions() => new(Width, Height); 
 		
 		#endregion
 
 		#region Private Methods
 
-		private void Repack() => CurrentPack = BinPackingUtility.GenerateBinPack(Items, _width, _height);
+		private void Repack() => CurrentPack = BinPackingUtility.GenerateBinPack(Items, Width, Height);
 		private bool CanAdd(ItemData itemData)
 		{
-			return !Items.Contains(itemData) && BinPackingUtility.ItemsFitInBin(new List<ItemData>(Items) { itemData }, _width, _height);
+			return !Items.Contains(itemData) && BinPackingUtility.ItemsFitInBin(new List<ItemData>(Items) { itemData }, Width, Height);
 		}
 
 		private void Add(ItemData itemData)

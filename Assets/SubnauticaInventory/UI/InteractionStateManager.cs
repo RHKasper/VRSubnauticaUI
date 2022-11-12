@@ -28,7 +28,9 @@ namespace SubnauticaInventory.UI
 		public UnityEvent<PointerEventData> OnDragEnd;
 		public UnityEvent<PointerEventData> OnDragStart;
 		public UnityEvent<PointerEventData> OnDragUpdate;
-		
+
+		public InteractionState CurrentInteractionState => _lastInteractionState;
+		public IDropTarget CurrentDropTarget => _currentDropTarget;
 		
 
 		private HashSet<int> _pointersOver = new();
