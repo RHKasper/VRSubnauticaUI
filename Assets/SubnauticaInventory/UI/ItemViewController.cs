@@ -4,6 +4,7 @@ using System.Linq;
 using SubnauticaInventory.DataModel;
 using SubnauticaInventory.UI.Tooltips;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -118,9 +119,9 @@ namespace SubnauticaInventory.UI
 			IDropTarget target = eventData.pointerCurrentRaycast.gameObject.GetComponent<IDropTarget>();
 
 			if (target is InventoryViewController inventory && inventory != _owner)
-			{
 				TryMoveItemToAnotherInventory(inventory);
-			}
+			else if (target is ItemViewController item && CanSwapWith(item)) 
+				SwapItem(item);
 		}
 		
 		private void TryMoveItemToAnotherInventory(InventoryViewController target)
@@ -131,6 +132,18 @@ namespace SubnauticaInventory.UI
 				_owner.Refresh();
 				target.Refresh();
 			}
+		}
+		
+		private void SwapItem(ItemViewController swapTarget)
+		{
+			_owner.InventoryData.Remove(ItemData);
+			swapTarget._owner.InventoryData.Remove(swapTarget.ItemData);
+			
+			Assert.IsTrue(_owner.InventoryData.RequestAdd(swapTarget.ItemData));
+			Assert.IsTrue(swapTarget._owner.InventoryData.RequestAdd(ItemData));
+			
+			_owner.Refresh();
+			swapTarget._owner.Refresh();
 		}
 
 		
