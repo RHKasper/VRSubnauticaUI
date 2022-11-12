@@ -100,7 +100,7 @@ namespace SubnauticaInventory.UI
 		
 		public void OnDragUpdate(PointerEventData eventData)
 		{
-			Debug.Log(eventData.pointerCurrentRaycast.gameObject.name);
+			Debug.Log("Current Drop Target: eventData.pointerCurrentRaycast.gameObject.name");
 			Vector2 raycastLocalPos = _pdaOverlayCanvas.InverseTransformPoint(eventData.pointerCurrentRaycast.worldPosition);
 			RectTransform.anchoredPosition = raycastLocalPos + RectTransform.sizeDelta.Multiply(-.5f, .5f);
 
