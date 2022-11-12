@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using SubnauticaInventory.UI.Tooltips.ItemTooltips;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace SubnauticaInventory.UI.Tooltips
 {
 	/// <summary>
-	/// This is the base class for other tooltip providers like <see cref="ItemTooltips.ItemTooltipsProvider"/>. It
+	/// This is the base class for other tooltip providers like <see cref="ItemTooltipProvider"/>. It
 	/// contains generic pooling and instantiation methods, along with public <see cref="Show"/> and <see cref="Hide"/>
 	/// methods that should take care of most tooltip functionality
 	/// </summary>

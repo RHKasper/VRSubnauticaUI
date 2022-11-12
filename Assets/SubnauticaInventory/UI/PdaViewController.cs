@@ -2,6 +2,7 @@ using SubnauticaInventory.DataModel;
 using SubnauticaInventory.UI.Tooltips;
 using SubnauticaInventory.UI.Tooltips.ItemTooltips;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace SubnauticaInventory.UI
 {
@@ -9,10 +10,10 @@ namespace SubnauticaInventory.UI
     {
         [SerializeField] private Canvas baseCanvas;
         [SerializeField] private Canvas overlayCanvas;
-        [SerializeField] private ItemTooltipsProvider _itemTooltipsProvider;
+        [FormerlySerializedAs("_itemTooltipsProvider")] [SerializeField] private ItemTooltipProvider itemTooltipProvider;
 
 
-        public ItemTooltipsProvider ItemTooltipsProvider => _itemTooltipsProvider;
+        public ItemTooltipProvider ItemTooltipProvider => itemTooltipProvider;
         public Canvas BaseCanvas => baseCanvas;
         public Canvas OverlayCanvas => overlayCanvas;
     }

@@ -2,7 +2,7 @@
 
 namespace SubnauticaInventory.UI.Tooltips.ItemTooltips
 {
-	public class ItemTooltipsProvider : AbstractTooltipsProvider<ItemTooltipController, ItemViewController>
+	public class ItemTooltipProvider : AbstractTooltipsProvider<ItemTooltipController, ItemViewController>
 	{
 		public void UpdatePosition(ItemViewController itemView, PointerEventData eventData)
 		{
