@@ -1,10 +1,11 @@
-﻿using TMPro;
+﻿using SubnauticaInventory.DataModel;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace SubnauticaInventory.UI.Tooltips
+namespace SubnauticaInventory.UI.Tooltips.ItemTooltips
 {
-	public class ItemTooltipController : SimpleUiBehavior
+	public class ItemTooltipController : AbstractTooltipController<ItemViewController>
 	{
 		[Header("Settings")]
 		[SerializeField] private Vector2 offsetFromPointer = new(24,-30);
@@ -15,7 +16,7 @@ namespace SubnauticaInventory.UI.Tooltips
 
 		private ItemViewController _itemView;
 
-		public void ShowInternal(ItemViewController itemView)
+		public override void SetData(ItemViewController itemView)
 		{
 			_itemView = itemView;
 			

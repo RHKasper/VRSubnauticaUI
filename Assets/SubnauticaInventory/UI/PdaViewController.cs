@@ -1,5 +1,6 @@
 using SubnauticaInventory.DataModel;
 using SubnauticaInventory.UI.Tooltips;
+using SubnauticaInventory.UI.Tooltips.ItemTooltips;
 using UnityEngine;
 
 namespace SubnauticaInventory.UI
