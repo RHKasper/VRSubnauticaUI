@@ -40,14 +40,11 @@ namespace SubnauticaInventory.DataModel
 			// Sort by height, using width as a tiebreaker, then sorting objects with the same shape/size alphabetically
 			items.Sort(delegate(ItemData a, ItemData b)
 			{
-				if (a.height == b.height)
-				{
-					if(a.width == b.width)
-						return String.Compare(a.name, b.name, StringComparison.Ordinal);
-					return b.width.CompareTo(a.width);
-				}
-					
-				return b.height.CompareTo(a.height);
+				if (a.height != b.height) return b.height.CompareTo(a.height);
+				if (a.width != b.width) return b.width.CompareTo(a.width);
+				if (a.name != b.name) return String.Compare(a.name, b.name, StringComparison.Ordinal);
+				
+				return a.InstanceID.CompareTo(b.InstanceID);
 			});
 
 			// Track open spaces as rects and start with the whole bin open

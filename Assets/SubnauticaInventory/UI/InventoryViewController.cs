@@ -24,8 +24,10 @@ namespace SubnauticaInventory.UI
 		[SerializeField] private GridBackgroundController gridBackgroundController;
 		[SerializeField] private ItemViewController itemViewPrefab;
 		
-		private readonly LinkedList<ItemViewController> _itemViewPool = new();
 		private readonly LinkedList<ItemViewController> _activeItemViews = new();
+		private readonly LinkedList<ItemViewController> _itemViewPool = new();
+		private readonly Dictionary<ItemData, ItemViewController> _cachedInactiveItemViews = new();
+		
 
 		public Transform ItemViewsParent => itemViewsParent;
 		public Canvas PdaOverlayCanvas => pdaViewController.OverlayCanvas;
@@ -67,10 +69,12 @@ namespace SubnauticaInventory.UI
 		/// </summary>
 		private void Clear()
 		{
-			while (_activeItemViews.Any())
-			{
+			while (_activeItemViews.Any()) 
 				ReturnItemViewToPool(_activeItemViews.Last.Value);
-			}
+			
+			// foreach (ItemViewController view in _cachedInactiveItemViews.Values) 
+			// 	_itemViewPool.AddLast(view);
+			// _cachedInactiveItemViews.Clear();
 		}
 
 		/// <summary>
@@ -79,8 +83,14 @@ namespace SubnauticaInventory.UI
 		private ItemViewController InstantiateItemView(ItemData itemData, Vector2Int coordinates)
 		{
 			ItemViewController itemView = null;
-			
-			if (_itemViewPool.Any())
+
+			if (_cachedInactiveItemViews.ContainsKey(itemData))
+			{
+				itemView = _cachedInactiveItemViews[itemData];
+				itemView.gameObject.SetActive(true);
+				_cachedInactiveItemViews.Remove(itemData);
+			}
+			else if (_itemViewPool.Any())
 			{
 				itemView = _itemViewPool.Last.Value;
 				itemView.gameObject.SetActive(true);
@@ -101,7 +111,8 @@ namespace SubnauticaInventory.UI
 		private void ReturnItemViewToPool(ItemViewController itemViewController)
 		{
 			_activeItemViews.Remove(itemViewController);
-			_itemViewPool.AddLast(itemViewController);
+			_cachedInactiveItemViews[itemViewController.ItemData] = itemViewController;
+			//_itemViewPool.AddLast(itemViewController);
 			
 			itemViewController.gameObject.SetActive(false);
 		}
