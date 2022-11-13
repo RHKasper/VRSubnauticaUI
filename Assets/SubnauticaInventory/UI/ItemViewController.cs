@@ -25,6 +25,7 @@ namespace SubnauticaInventory.UI
 		public Vector2 desiredAnchoredPosition;
 		
 		[Header("Internal References")]
+		public Image highlightBorder;
 		[SerializeField] private Image raycastTarget;
 		[SerializeField] private FreeModifier[] freeModifiers;
 		[SerializeField] private Image itemImage;
@@ -33,6 +34,7 @@ namespace SubnauticaInventory.UI
 		private InventoryViewController _owner;
 		private Transform _pdaOverlayCanvas;
 		
+
 
 		public Transform PdaOverlayCanvas => _pdaOverlayCanvas;
 		public ItemData ItemData { get; private set; }
@@ -43,8 +45,9 @@ namespace SubnauticaInventory.UI
 			_owner = inventoryViewController;
 			_pdaOverlayCanvas = inventoryViewController.PdaOverlayCanvas.transform;
 			itemImage.sprite = itemData.sprite;
+			highlightBorder.gameObject.SetActive(false);
 			SetSize(inventoryViewController);
-			
+
 			gameObject.name = $"ItemView - {itemData.name} ({itemData.width}x{itemData.height})";
 		}
 
