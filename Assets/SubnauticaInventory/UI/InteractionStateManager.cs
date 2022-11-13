@@ -31,12 +31,12 @@ namespace SubnauticaInventory.UI
 
 		public InteractionState CurrentInteractionState => _lastInteractionState;
 		public IDropTarget CurrentDropTarget => _currentDropTarget;
-		
+		public bool IsDragging { get; private set; }
+
 
 		private HashSet<int> _pointersOver = new();
 		private int _pointerDownId = -1;
-		private Vector2 _dragOrigin;
-		private bool _isDragging;
+		private Vector2 _dragOrigin; 
 		private IDropTarget _currentDropTarget;
 
 		private bool _isDirty;
@@ -76,7 +76,7 @@ namespace SubnauticaInventory.UI
 			{
 				try
 				{
-					if(_isDragging)
+					if(IsDragging)
 						OnDragEnd?.Invoke(eventData);
 					else
 						OnClick?.Invoke(eventData);
@@ -88,7 +88,7 @@ namespace SubnauticaInventory.UI
 
 				_pointerDownId = -1;
 				_dragOrigin = default;
-				_isDragging = default;
+				IsDragging = default;
 				_currentDropTarget = default;
 				_isDirty = true;
 			}
@@ -108,7 +108,7 @@ namespace SubnauticaInventory.UI
 				string debug = "";
 				debug += $"Pointers Over: {string.Join(",", _pointersOver)}\n";
 				debug += $"Pointer Down Id: {_pointerDownId}\n";
-				debug += $"IsDragging: {_isDragging}\n";
+				debug += $"IsDragging: {IsDragging}\n";
 				debug += $"Last Interaction State: {_lastInteractionState}\n";
 				debug += $"CurrentDropTarget: {(_currentDropTarget != null ? _currentDropTarget.Name : "-")}\n";
 				debugText.text = debug;
@@ -142,7 +142,7 @@ namespace SubnauticaInventory.UI
 
 			if (_currentDropTarget != null)
 				newInteractionState = InteractionState.DraggingWithTarget;
-			else if (_isDragging)
+			else if (IsDragging)
 				newInteractionState = InteractionState.DraggingNoTarget;
 			else if (_pointerDownId != -1)
 				newInteractionState = InteractionState.PointerDown;
@@ -164,24 +164,24 @@ namespace SubnauticaInventory.UI
 			{
 				Vector2 dragOffset = eventData.position - _dragOrigin;
 
-				if (_isDragging || dragOffset.sqrMagnitude >= dragThreshold * dragThreshold)
+				if (IsDragging || dragOffset.sqrMagnitude >= dragThreshold * dragThreshold)
 				{
-					if (!_isDragging)
+					if (!IsDragging)
 						OnDragStart?.Invoke(eventData);
 
-					_isDragging = true;
+					IsDragging = true;
 					_currentDropTarget = CheckForDropTarget(eventData);
 					_isDirty = true;
 				}
 				else
 				{
-					_isDragging = default;
+					IsDragging = default;
 					_currentDropTarget = default;
 					_isDirty = true;
 				}
 			}
 			
-			if(_isDragging)
+			if(IsDragging)
 				OnDragUpdate?.Invoke(eventData);
 		}
 	}
