@@ -135,6 +135,9 @@ namespace SubnauticaInventory.UI
 					break;
 				
 				case InteractionState.DraggingWithTarget:
+					if(interactionStateManager.CurrentDropTarget is ItemViewController itemViewController)
+						_owner.Pda.ItemTooltipProvider.Hide(itemViewController);
+					
 					if(_owner.Pda.SwapTooltipProvider.HasActive(this))
 						LerpTowardDesiredPosition(snapToSwapSpeed);
 					else
