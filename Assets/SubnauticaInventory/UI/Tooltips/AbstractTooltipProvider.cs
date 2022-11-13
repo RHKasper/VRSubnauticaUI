@@ -18,13 +18,13 @@ namespace SubnauticaInventory.UI.Tooltips
 		[SerializeField] protected TPrefab tooltipPrefab;
 
 		protected readonly Dictionary<TData, TPrefab> ActiveTooltips = new();
-		protected readonly List<TPrefab> Pool = new();
+		protected readonly Dictionary<TData, TPrefab> InactiveTooltips = new();
 
 		public void Show(TData data)
 		{
 			if (!HasActive(data) || ActiveTooltips[data] == null)
 			{
-				ActiveTooltips[data] = GetTooltipFromPool();
+				ActiveTooltips[data] = GetTooltipFromPool(data);
 				ActiveTooltips[data].SetData(data);
 			}
 		}
@@ -35,20 +35,20 @@ namespace SubnauticaInventory.UI.Tooltips
 			{
 				TPrefab tooltip = ActiveTooltips[data]; 
 				ActiveTooltips.Remove(data);
-				ReturnToPool(tooltip);
+				ReturnToPool(tooltip, data);
 			}
 		}
 
 		public bool HasActive(TData data) => ActiveTooltips.ContainsKey(data);
 
-		private TPrefab GetTooltipFromPool()
+		private TPrefab GetTooltipFromPool(TData data)
 		{
 			TPrefab tooltip;
 
-			if (Pool.Any())
+			if (InactiveTooltips.ContainsKey(data))
 			{
-				tooltip = Pool[^1];
-				Pool.RemoveAt(Pool.Count-1);
+				tooltip = InactiveTooltips[data];
+				InactiveTooltips.Remove(data);
 			}
 			else
 			{
@@ -58,13 +58,14 @@ namespace SubnauticaInventory.UI.Tooltips
 			return tooltip;
 		}
 
-		private void ReturnToPool(TPrefab tooltip)
+		private void ReturnToPool(TPrefab tooltip, TData data)
 		{
 			Transform tooltipTransform = tooltip.transform;
 			tooltipTransform.SetParent(transform);
 			tooltipTransform.localScale = Vector3.one;
 			tooltip.gameObject.SetActive(false);
-			Pool.Add(tooltip);
+			
+			InactiveTooltips[data] = tooltip;
 		}
 	}
 }
