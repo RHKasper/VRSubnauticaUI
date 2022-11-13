@@ -41,6 +41,25 @@ namespace SubnauticaInventory.DataModel
 			Repack();
 		}
 
+		/// <summary>
+		/// Swaps two items, if possible.
+		/// </summary>
+		/// <returns>whether the item was swapped</returns>
+		public bool RequestSwap(ItemData myItem, Inventory otherInventory, ItemData otherItem)
+		{
+			if (BinPackingUtility.ItemsCanSwap(this, myItem, otherInventory, otherItem))
+			{
+				Remove(myItem);
+				otherInventory.Remove(otherItem);
+			
+				Add(otherItem);
+				otherInventory.Add(myItem);
+				return true;
+			}
+
+			return false;
+		}
+
 		public Vector2Int GetDimensions() => new(Width, Height); 
 		
 		#endregion

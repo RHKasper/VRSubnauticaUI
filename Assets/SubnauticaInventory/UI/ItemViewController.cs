@@ -157,7 +157,7 @@ namespace SubnauticaInventory.UI
 
 			if (target is InventoryViewController inventory && inventory != _owner)
 				TryMoveItemToAnotherInventory(inventory);
-			else if (target is ItemViewController item && CanSwapWith(item)) 
+			else if (target is ItemViewController item) 
 				SwapItem(item);
 		}
 		
@@ -173,14 +173,11 @@ namespace SubnauticaInventory.UI
 		
 		private void SwapItem(ItemViewController swapTarget)
 		{
-			_owner.InventoryData.Remove(ItemData);
-			swapTarget._owner.InventoryData.Remove(swapTarget.ItemData);
-			
-			Assert.IsTrue(_owner.InventoryData.RequestAdd(swapTarget.ItemData));
-			Assert.IsTrue(swapTarget._owner.InventoryData.RequestAdd(ItemData));
-			
-			_owner.Refresh();
-			swapTarget._owner.Refresh();
+			if (_owner.InventoryData.RequestSwap(ItemData, swapTarget._owner.InventoryData, swapTarget.ItemData))
+			{
+				_owner.Refresh();
+				swapTarget._owner.Refresh();
+			}
 		}
 
 		
