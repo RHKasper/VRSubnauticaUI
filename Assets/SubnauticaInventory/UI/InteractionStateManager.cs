@@ -74,18 +74,23 @@ namespace SubnauticaInventory.UI
 		{
 			if (eventData.pointerId == _pointerDownId)
 			{
-				bool tempIsDragging = _isDragging;
-				
+				try
+				{
+					if(_isDragging)
+						OnDragEnd?.Invoke(eventData);
+					else
+						OnClick?.Invoke(eventData);
+				}
+				catch (Exception e)
+				{
+					Debug.LogError(e);
+				}
+
 				_pointerDownId = -1;
 				_dragOrigin = default;
 				_isDragging = default;
 				_currentDropTarget = default;
 				_isDirty = true;
-				
-				if(tempIsDragging)
-					OnDragEnd?.Invoke(eventData);
-				else
-					OnClick?.Invoke(eventData);
 			}
 		}
 		
@@ -120,9 +125,12 @@ namespace SubnauticaInventory.UI
 			for (var i = 0; i < _tempRaycastList.Count; i++)
 			{
 				RaycastResult result = _tempRaycastList[i];
-				IDropTarget dropTarget = result.gameObject.GetComponent<IDropTarget>();
-				if (dropTarget != null)
-					return dropTarget;
+				if (result.gameObject != gameObject)
+				{
+					IDropTarget dropTarget = result.gameObject.GetComponent<IDropTarget>();
+					if (dropTarget != null)
+						return dropTarget;
+				}
 			}
 
 			return null;

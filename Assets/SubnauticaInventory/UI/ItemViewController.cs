@@ -92,7 +92,7 @@ namespace SubnauticaInventory.UI
 		{
 			Debug.Log("on drag start");
 			transform.SetParent(_owner.PdaOverlayCanvas.transform);
-			raycastTarget.raycastTarget = false;
+			//raycastTarget.raycastTarget = false;
 		}
 		
 		public void OnDragEnd(PointerEventData eventData)
@@ -102,14 +102,14 @@ namespace SubnauticaInventory.UI
 			_owner.Pda.SwapTooltipProvider.Hide(this);
 			transform.SetParent(_owner.ItemViewsParent);
 			_owner.Refresh();
-			raycastTarget.raycastTarget = true;
+			//raycastTarget.raycastTarget = true;
 
 			EvaluateDragAndDrop(eventData);
 		}
 		
 		public void OnDragUpdate(PointerEventData eventData)
 		{
-			Debug.Log("Current Drop Target: eventData.pointerCurrentRaycast.gameObject.name");
+			Debug.Log($"Current Drop Target: {interactionStateManager.CurrentDropTarget}");
 			Vector2 raycastLocalPos = _pdaOverlayCanvas.InverseTransformPoint(eventData.pointerCurrentRaycast.worldPosition);
 			desiredAnchoredPosition = raycastLocalPos + RectTransform.sizeDelta.Multiply(-.5f, .5f);
 
@@ -152,8 +152,8 @@ namespace SubnauticaInventory.UI
 		{
 			if(!eventData.pointerCurrentRaycast.gameObject)
 				return;
-			
-			IDropTarget target = eventData.pointerCurrentRaycast.gameObject.GetComponent<IDropTarget>();
+
+			IDropTarget target = interactionStateManager.CurrentDropTarget;
 
 			if (target is InventoryViewController inventory && inventory != _owner)
 				TryMoveItemToAnotherInventory(inventory);
@@ -168,6 +168,7 @@ namespace SubnauticaInventory.UI
 				_owner.InventoryData.Remove(ItemData);
 				_owner.Refresh();
 				target.Refresh();
+				_owner.Pda.ItemTooltipProvider.Hide(this);
 			}
 		}
 		
@@ -175,8 +176,10 @@ namespace SubnauticaInventory.UI
 		{
 			if (_owner.InventoryData.RequestSwap(ItemData, swapTarget._owner.InventoryData, swapTarget.ItemData))
 			{
-				_owner.Refresh();
+				_owner.Pda.ItemTooltipProvider.Hide(this);
+				swapTarget._owner.Pda.ItemTooltipProvider.Hide(swapTarget);
 				swapTarget._owner.Refresh();
+				_owner.Refresh();
 			}
 		}
 
