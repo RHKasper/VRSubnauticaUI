@@ -103,14 +103,11 @@ namespace SubnauticaInventory.UI
 			_activeItemViews.Remove(itemViewController);
 			_itemViewPool.AddLast(itemViewController);
 			
-			itemViewController.RectTransform.anchoredPosition = Vector2.zero;
 			itemViewController.gameObject.SetActive(false);
 		}
 
 		#region Test Methods
 
-		public Sprite[] testSprites;
-		
 		[ContextMenu("Test Inventory Load 1")]
 		public void TestInventoryLoad1()
 		{
