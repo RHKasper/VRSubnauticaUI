@@ -95,5 +95,36 @@ namespace SubnauticaInventory.Scripts.DataModel.UnitTests
 			Assert.IsTrue(list.First.Value.Y == 0);
 			Assert.IsTrue(list.Last.Previous.Value.Y == 2);
 		}
+		
+		
+		[Test]
+		public static void SwapTest1()
+		{
+			List<ItemData> items1 = new()
+			{
+				new ItemData("tall #1 from 1", 1, 2),
+				new ItemData("very tall #1 from 1", 1, 3),
+				new ItemData("tall #2 from 1", 1, 2),
+				new ItemData("very tall #2 from 1", 1, 3),
+			};
+			
+			List<ItemData> items2 = new()
+			{
+				new ItemData("tall #1 from 2", 1, 2),
+				new ItemData("very tall #1 from 2", 1, 3),
+				new ItemData("tall #2 from 2", 1, 2),
+				new ItemData("very tall #2 from 2", 1, 3),
+			};
+
+			Inventory inventory1 = new Inventory(2, 5);
+			Inventory inventory2 = new Inventory(2, 5);
+
+			foreach (ItemData item in items1) Assert.IsTrue(inventory1.RequestAdd(item));
+			foreach (ItemData item in items2) Assert.IsTrue(inventory2.RequestAdd(item));
+
+			Assert.IsTrue(BinPackingUtility.ItemsCanSwap(inventory1, items1[0], inventory2, items2[0]));
+			Assert.IsFalse(BinPackingUtility.ItemsCanSwap(inventory1, items1[0], inventory2, items2[1]));
+
+		}
 	}
 }

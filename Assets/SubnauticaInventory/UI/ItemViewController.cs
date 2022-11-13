@@ -191,17 +191,7 @@ namespace SubnauticaInventory.UI
 		/// <see cref="_owner"/>'s if this object's <see cref="ItemData"/> wasn't in it</returns>
 		private bool CanSwapWith(ItemViewController swapTarget)
 		{
-			if(swapTarget._owner.InventoryData == _owner.InventoryData)
-				return false;
-
-			List<ItemData> theseItems = _owner.InventoryData.Items.Where(i => i!= ItemData).ToList();
-			theseItems.Add(swapTarget.ItemData);
-			
-			List<ItemData> thoseItems = swapTarget._owner.InventoryData.Items.Where(i => i!= swapTarget.ItemData).ToList();
-			thoseItems.Add(ItemData);
-
-			return BinPackingUtility.ItemsFitInBin(theseItems, _owner.InventoryData) &&
-			       BinPackingUtility.ItemsFitInBin(thoseItems, swapTarget._owner.InventoryData);
+			return swapTarget._owner != _owner && BinPackingUtility.ItemsCanSwap(_owner.InventoryData, ItemData, swapTarget._owner.InventoryData, swapTarget.ItemData);
 		}
 
 		private void LerpTowardDesiredPosition(float speed)

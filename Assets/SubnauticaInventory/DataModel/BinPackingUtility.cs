@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace SubnauticaInventory.DataModel
@@ -11,11 +12,20 @@ namespace SubnauticaInventory.DataModel
 			return GenerateBinPack(items, binWidth, binHeight) != null;
 		}
 		
-		public static bool ItemsFitInBin(List<ItemData> items, Inventory inventory)
+		/// <summary>
+		/// Evaluates whether two items in different inventories can be swapped
+		/// </summary>
+		public static bool ItemsCanSwap(Inventory inv1, ItemData item1, Inventory inv2, ItemData item2)
 		{
-			return ItemsFitInBin(items, inventory.Width, inventory.Height);
+				List<ItemData> newInv1 = inv1.Items.Where(i => i != item1).ToList();
+				newInv1.Add(item2);
+			
+				List<ItemData> newInv2 = inv2.Items.Where(i => i != item2).ToList();
+				newInv2.Add(item1);
+
+				return ItemsFitInBin(newInv1, inv1.Width, inv1.Height) && ItemsFitInBin(newInv2, inv2.Width, inv2.Height);
 		}
-		
+
 		/// <summary>
 		/// Generates a valid bin pack for the given parameters, if there is one.
 		/// Source: https://codeincomplete.com/articles/bin-packing/
