@@ -6,7 +6,7 @@ namespace SubnauticaInventory.UI.Tooltips.ItemTooltips
 	{
 		public void UpdatePosition(ItemViewController itemView, PointerEventData eventData)
 		{
-			if(ActiveTooltips.ContainsKey(itemView))
+			if(HasActive(itemView))
 				ActiveTooltips[itemView].UpdatePositionInternal(eventData);
 		}
 	}

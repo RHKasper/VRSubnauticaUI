@@ -20,24 +20,26 @@ namespace SubnauticaInventory.UI.Tooltips
 		protected readonly Dictionary<TData, TPrefab> ActiveTooltips = new();
 		protected readonly List<TPrefab> Pool = new();
 
-		public void Show(TData itemView)
+		public void Show(TData data)
 		{
-			if (!ActiveTooltips.ContainsKey(itemView) || ActiveTooltips[itemView] == null)
+			if (!HasActive(data) || ActiveTooltips[data] == null)
 			{
-				ActiveTooltips[itemView] = GetTooltipFromPool();
-				ActiveTooltips[itemView].SetData(itemView);
+				ActiveTooltips[data] = GetTooltipFromPool();
+				ActiveTooltips[data].SetData(data);
 			}
 		}
 
-		public void Hide(TData itemView)
+		public void Hide(TData data)
 		{
-			if (ActiveTooltips.ContainsKey(itemView))
+			if (HasActive(data))
 			{
-				TPrefab tooltip = ActiveTooltips[itemView]; 
-				ActiveTooltips.Remove(itemView);
+				TPrefab tooltip = ActiveTooltips[data]; 
+				ActiveTooltips.Remove(data);
 				ReturnToPool(tooltip);
 			}
 		}
+
+		public bool HasActive(TData data) => ActiveTooltips.ContainsKey(data);
 
 		private TPrefab GetTooltipFromPool()
 		{

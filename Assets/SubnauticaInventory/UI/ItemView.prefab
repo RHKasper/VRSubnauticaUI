@@ -353,6 +353,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1b33f3ad1984632ae09011e3b9a561e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dragSpeed: 8
+  snapToSwapSpeed: 11
+  desiredAnchoredPosition: {x: 0, y: 0}
   raycastTarget: {fileID: 1481136139936233546}
   freeModifiers:
   - {fileID: 7798192904381300033}

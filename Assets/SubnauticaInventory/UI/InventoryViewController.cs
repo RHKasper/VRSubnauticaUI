@@ -92,7 +92,7 @@ namespace SubnauticaInventory.UI
 			}
 
 			itemView.SetData(itemData, this);
-			itemView.RectTransform.anchoredPosition = (cellSize * (Vector2)coordinates + Vector2.one * spacing/2).WithNegativeY();
+			itemView.desiredAnchoredPosition = (cellSize * (Vector2)coordinates + Vector2.one * spacing/2).WithNegativeY();
 
 			_activeItemViews.AddLast(itemView);
 			return itemView;

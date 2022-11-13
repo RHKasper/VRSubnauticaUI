@@ -17,13 +17,22 @@ namespace SubnauticaInventory.UI
 	/// </summary>
 	public partial class ItemViewController : SimpleUiBehavior, IDropTarget
 	{
+		[Header("Settings")] 
+		[SerializeField] private float dragSpeed = 6;
+		[SerializeField] private float snapToSwapSpeed = 10;
+		
+		[Header("Debug")]
+		public Vector2 desiredAnchoredPosition;
+		
+		[Header("Internal References")]
 		[SerializeField] private Image raycastTarget;
 		[SerializeField] private FreeModifier[] freeModifiers;
 		[SerializeField] private Image itemImage;
 		[SerializeField] private InteractionStateManager interactionStateManager;
-		
+
 		private InventoryViewController _owner;
 		private Transform _pdaOverlayCanvas;
+		
 
 		public Transform PdaOverlayCanvas => _pdaOverlayCanvas;
 		public ItemData ItemData { get; private set; }
@@ -102,12 +111,37 @@ namespace SubnauticaInventory.UI
 		{
 			Debug.Log("Current Drop Target: eventData.pointerCurrentRaycast.gameObject.name");
 			Vector2 raycastLocalPos = _pdaOverlayCanvas.InverseTransformPoint(eventData.pointerCurrentRaycast.worldPosition);
-			RectTransform.anchoredPosition = raycastLocalPos + RectTransform.sizeDelta.Multiply(-.5f, .5f);
+			desiredAnchoredPosition = raycastLocalPos + RectTransform.sizeDelta.Multiply(-.5f, .5f);
 
 			if (interactionStateManager.CurrentDropTarget is ItemViewController swapTarget && CanSwapWith(swapTarget))
+			{
 				_owner.Pda.SwapTooltipProvider.Show(this);
+				Vector3 targetWorldPosition = swapTarget.RectTransform.position;
+				desiredAnchoredPosition = swapTarget.RectTransform.sizeDelta.WithNegativeY()/2 + (Vector2) RectTransform.parent.InverseTransformPoint(targetWorldPosition);
+			}
 			else
 				_owner.Pda.SwapTooltipProvider.Hide(this);
+		}
+
+		private void Update()
+		{
+			switch (interactionStateManager.CurrentInteractionState)
+			{
+				case InteractionState.DraggingNoTarget:
+					LerpTowardDesiredPosition(dragSpeed);
+					break;
+				
+				case InteractionState.DraggingWithTarget:
+					if(_owner.Pda.SwapTooltipProvider.HasActive(this))
+						LerpTowardDesiredPosition(snapToSwapSpeed);
+					else
+						LerpTowardDesiredPosition(dragSpeed);
+					break;
+				
+				default:
+					LerpTowardDesiredPosition(snapToSwapSpeed);	
+					break;
+			}
 		}
 
 		/// <summary>
@@ -116,6 +150,9 @@ namespace SubnauticaInventory.UI
 		/// </summary>
 		private void EvaluateDragAndDrop(PointerEventData eventData)
 		{
+			if(!eventData.pointerCurrentRaycast.gameObject)
+				return;
+			
 			IDropTarget target = eventData.pointerCurrentRaycast.gameObject.GetComponent<IDropTarget>();
 
 			if (target is InventoryViewController inventory && inventory != _owner)
@@ -167,6 +204,11 @@ namespace SubnauticaInventory.UI
 			       BinPackingUtility.ItemsFitInBin(thoseItems, swapTarget._owner.InventoryData);
 		}
 
+		private void LerpTowardDesiredPosition(float speed)
+		{
+			RectTransform.anchoredPosition = Vector2.Lerp(RectTransform.anchoredPosition, desiredAnchoredPosition, Time.deltaTime * speed);
+		}
+		
 		public string Name => gameObject.name;
 	}
 }
