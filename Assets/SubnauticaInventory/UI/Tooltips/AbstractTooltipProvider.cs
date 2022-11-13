@@ -26,6 +26,7 @@ namespace SubnauticaInventory.UI.Tooltips
 			{
 				ActiveTooltips[data] = GetTooltipFromPool();
 				ActiveTooltips[data].SetData(data);
+				OnSuccessfulShow(data, ActiveTooltips[data]);
 			}
 		}
 
@@ -36,11 +37,22 @@ namespace SubnauticaInventory.UI.Tooltips
 				TPrefab tooltip = ActiveTooltips[data]; 
 				ActiveTooltips.Remove(data);
 				ReturnToPool(tooltip);
+				OnSuccessfulHide(data, tooltip);
 			}
 		}
 
 		public bool HasActive(TData data) => ActiveTooltips.ContainsKey(data);
 
+		protected virtual void OnSuccessfulShow(TData data, TPrefab prefab)
+		{
+			
+		}
+		
+		protected virtual void OnSuccessfulHide(TData data, TPrefab prefab)
+		{
+			
+		}
+		
 		private TPrefab GetTooltipFromPool()
 		{
 			TPrefab tooltip;
