@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using SubnauticaInventory.DataModel;
@@ -14,6 +15,7 @@ namespace SubnauticaInventory.UI
 		[SerializeField] private InventoryViewController transferTarget;
 		[SerializeField] private float cellSize = 80;
 		[SerializeField] private float spacing = 8;
+		[SerializeField] private int initialSetupId = 2;
 
 		[Header("External References")] 
 		[SerializeField] private PdaViewController pdaViewController;
@@ -61,7 +63,18 @@ namespace SubnauticaInventory.UI
 		/// <summary>
 		/// Initialize with an empty inventory
 		/// </summary>
-		private void Awake() => LoadInventoryContents(new Inventory(6,8));
+		private IEnumerator Start()
+		{
+			yield return new WaitForSeconds(1);
+			switch (initialSetupId)
+			{
+				case 1: TestInventoryLoad1(); break;
+				case 2: TestInventoryLoad2(); break;
+				case 3: TestInventoryLoad3(); break;
+				case 4: TestInventoryLoad4(); break;
+				default: LoadInventoryContents(new Inventory(6,8)); break;
+			}
+		}
 
 		/// <summary>
 		/// Returns all active <see cref="ItemViewController"/> objects from this <see cref="InventoryViewController"/>
